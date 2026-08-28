@@ -117,3 +117,7 @@ create policy "ventas admin" on ventas for all using (auth.role() = 'authenticat
 -- "anon" no puede leer ni siquiera lo que las políticas permitirían.
 grant select on productos, talles to anon, authenticated;
 grant select, insert, update, delete on productos, talles, compras, ventas to authenticated;
+
+-- La vista de stock también necesita su propio grant (las vistas no heredan
+-- automáticamente los grants de sus tablas base).
+grant select on vista_stock to authenticated;
