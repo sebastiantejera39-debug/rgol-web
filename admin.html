@@ -57,6 +57,7 @@
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th { text-align: left; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 10px; border-bottom: 1px solid var(--border); }
   td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  tfoot td { font-weight: 700; border-top: 2px solid var(--border); border-bottom: none; }
   tr:hover td { background: rgba(201,168,76,0.04); }
   .table-wrap { overflow-x: auto; }
   .stock-bajo { color: var(--danger); font-weight: 700; }
@@ -68,7 +69,33 @@
   .talle-row { display: flex; gap: 6px; align-items: center; background: #111; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; }
   .talle-row input { width: 70px; margin-bottom: 0; padding: 4px 6px; }
   .talle-row button { background: none; border: none; color: var(--danger); font-size: 16px; padding: 0 4px; }
-  #stock-empty, #productos-empty { color: var(--text-muted); text-align: center; padding: 24px; }
+  #stock-empty, #productos-empty, #dash-ventas-empty, #dash-saldo-empty { color: var(--text-muted); text-align: center; padding: 24px; }
+
+  /* ---- Card colapsable (Nuevo producto) ---- */
+  .collapsible-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+  .collapsible-header h2 { margin-bottom: 0; }
+  .collapsible-header .chevron { color: var(--gold); font-size: 13px; transition: transform 0.2s; }
+  .collapsible-header.open .chevron { transform: rotate(180deg); }
+  .collapsible-body { display: none; margin-top: 18px; }
+  .collapsible-body.open { display: block; }
+
+  /* ---- Administrador de imágenes ---- */
+  .img-manager { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+  .img-thumb { position: relative; width: 84px; height: 84px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: #111; }
+  .img-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-thumb.img-uploading { display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); text-align: center; padding: 4px; }
+  .img-remove { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; line-height: 1; cursor: pointer; }
+  .img-move { position: absolute; bottom: 2px; background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; line-height: 1; cursor: pointer; }
+  .img-move-left { left: 2px; }
+  .img-move-right { right: 2px; }
+  .img-add-tile { width: 84px; height: 84px; border-radius: 8px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--gold); cursor: pointer; background: #111; }
+  .img-add-tile:hover { border-color: var(--gold); }
+
+  /* ---- Dashboard ---- */
+  .dash-total { font-size: 24px; font-weight: 700; margin-bottom: 18px; }
+  .filtro-row { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; }
+  .filtro-row > div { flex: 1; min-width: 140px; }
+  .filtro-row .btn-secondary { margin-bottom: 16px; width: 100%; }
 </style>
 </head>
 <body>
@@ -100,7 +127,8 @@
   </header>
 
   <nav class="tabs">
-    <button data-panel="panel-vender" class="active">Vender</button>
+    <button data-panel="panel-dashboard" class="active">Dashboard</button>
+    <button data-panel="panel-vender">Vender</button>
     <button data-panel="panel-comprar">Comprar / Stock</button>
     <button data-panel="panel-stock">Stock actual</button>
     <button data-panel="panel-productos">Productos</button>
@@ -108,8 +136,41 @@
 
   <main>
 
+    <!-- ---- DASHBOARD ---- -->
+    <section class="panel active" id="panel-dashboard">
+      <div class="card">
+        <h2>Ventas y rentabilidad</h2>
+        <div class="filtro-row">
+          <div><label for="dash-desde">Desde</label><input type="date" id="dash-desde"></div>
+          <div><label for="dash-hasta">Hasta</label><input type="date" id="dash-hasta"></div>
+          <div><button type="button" class="btn-secondary" id="dash-filtrar">Filtrar</button></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fecha</th><th>Producto</th><th>Talle</th><th>Cant.</th><th>Abonado</th><th>Costo</th><th>Rentabilidad</th><th>Cliente</th><th>Pago</th></tr></thead>
+            <tbody id="dash-ventas-tbody"></tbody>
+            <tfoot id="dash-ventas-tfoot"></tfoot>
+          </table>
+          <p id="dash-ventas-empty" style="display:none">Sin ventas en este período.</p>
+        </div>
+        <p class="muted" style="margin-top:10px;font-size:12px;">* Las ventas sin "valor costo" cargado se toman como costo $0 en los totales (rentabilidad estimada).</p>
+      </div>
+
+      <div class="card">
+        <h2>Saldo (ventas − compras/reposición de stock)</h2>
+        <div class="dash-total" id="dash-saldo-total"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mes</th><th>Ingresos (ventas)</th><th>Egresos (compras)</th><th>Saldo del mes</th><th>Saldo acumulado</th></tr></thead>
+            <tbody id="dash-saldo-tbody"></tbody>
+          </table>
+          <p id="dash-saldo-empty" style="display:none">Sin movimientos registrados.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- ---- VENDER ---- -->
-    <section class="panel active" id="panel-vender">
+    <section class="panel" id="panel-vender">
       <div class="card">
         <h2>Registrar venta</h2>
         <form id="form-venta">
@@ -236,49 +297,59 @@
     <!-- ---- PRODUCTOS ---- -->
     <section class="panel" id="panel-productos">
       <div class="card">
-        <h2>Nuevo producto</h2>
-        <form id="form-producto">
-          <div class="grid2">
-            <div>
-              <label for="prod-nombre">Nombre</label>
-              <input type="text" id="prod-nombre" placeholder="Ej: River Plate · Titular 25/26" required>
+        <div class="collapsible-header" id="prod-toggle">
+          <h2 id="prod-form-title">Nuevo producto</h2>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="collapsible-body" id="prod-form-body">
+          <form id="form-producto">
+            <div class="grid2">
+              <div>
+                <label for="prod-nombre">Nombre</label>
+                <input type="text" id="prod-nombre" placeholder="Ej: River Plate · Titular 25/26" required>
+              </div>
+              <div>
+                <label for="prod-liga">Liga / etiqueta (texto libre)</label>
+                <input type="text" id="prod-liga" placeholder="Ej: Liga Argentina">
+              </div>
             </div>
-            <div>
-              <label for="prod-liga">Liga / etiqueta (texto libre)</label>
-              <input type="text" id="prod-liga" placeholder="Ej: Liga Argentina">
+            <div class="grid3">
+              <div>
+                <label for="prod-precio">Precio</label>
+                <input type="number" id="prod-precio" min="0" step="1" required>
+              </div>
+              <div>
+                <label for="prod-precio-oferta">Precio anterior (si está en oferta)</label>
+                <input type="number" id="prod-precio-oferta" min="0" step="1">
+              </div>
+              <div>
+                <label for="prod-badge">Badge (opcional: Retro, Sale...)</label>
+                <input type="text" id="prod-badge">
+              </div>
             </div>
-          </div>
-          <div class="grid3">
-            <div>
-              <label for="prod-precio">Precio</label>
-              <input type="number" id="prod-precio" min="0" step="1" required>
+            <label>Categorías</label>
+            <div style="margin-bottom:16px; display:flex; gap:18px; font-size:13px;">
+              <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="equipos" class="prod-cat" style="width:auto;margin:0;"> Equipos</label>
+              <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="selecciones" class="prod-cat" style="width:auto;margin:0;"> Selecciones</label>
+              <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="retro" class="prod-cat" style="width:auto;margin:0;"> Retro</label>
             </div>
-            <div>
-              <label for="prod-precio-oferta">Precio anterior (si está en oferta)</label>
-              <input type="number" id="prod-precio-oferta" min="0" step="1">
+            <label style="display:flex;align-items:center;gap:8px;text-transform:none;margin:4px 0 16px;"><input type="checkbox" id="prod-activo" checked style="width:auto;margin:0;"> Producto activo (visible en el catálogo)</label>
+            <label>Imágenes del producto</label>
+            <div class="img-manager" id="prod-img-manager"></div>
+            <input type="file" id="prod-img-input" accept="image/*" multiple style="display:none">
+            <label>Talles y stock inicial</label>
+            <div class="talles-inline" id="prod-talles">
+              <div class="talle-row"><input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button></div>
             </div>
-            <div>
-              <label for="prod-badge">Badge (opcional: Retro, Sale...)</label>
-              <input type="text" id="prod-badge">
+            <button type="button" class="btn-secondary btn-small" id="add-talle-row" style="margin-bottom:20px;">+ Agregar talle</button>
+            <div class="error-msg" id="prod-error"></div>
+            <div class="ok-msg" id="prod-ok" style="display:none"></div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button type="submit" class="btn" id="prod-btn" style="max-width:220px">Crear producto</button>
+              <button type="button" class="btn-secondary btn-small" id="prod-cancel-edit" style="display:none;">Cancelar edición</button>
             </div>
-          </div>
-          <label>Categorías</label>
-          <div style="margin-bottom:16px; display:flex; gap:18px; font-size:13px;">
-            <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="equipos" class="prod-cat" style="width:auto;margin:0;"> Equipos</label>
-            <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="selecciones" class="prod-cat" style="width:auto;margin:0;"> Selecciones</label>
-            <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="retro" class="prod-cat" style="width:auto;margin:0;"> Retro</label>
-          </div>
-          <label for="prod-imagenes">Nombres de archivo de imagen (uno por línea, ya subidos a la carpeta del sitio)</label>
-          <textarea id="prod-imagenes" rows="3" placeholder="RiverPlate_Titular2526_1.jpg&#10;RiverPlate_Titular2526_2.jpg"></textarea>
-          <label>Talles y stock inicial</label>
-          <div class="talles-inline" id="prod-talles">
-            <div class="talle-row"><input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button></div>
-          </div>
-          <button type="button" class="btn-secondary btn-small" id="add-talle-row" style="margin-bottom:20px;">+ Agregar talle</button>
-          <div class="error-msg" id="prod-error"></div>
-          <div class="ok-msg" id="prod-ok" style="display:none">Producto creado.</div>
-          <button type="submit" class="btn" id="prod-btn" style="max-width:220px">Crear producto</button>
-        </form>
+          </form>
+        </div>
       </div>
 
       <div class="card">
@@ -303,12 +374,33 @@
   const SUPA_URL = 'https://ncaxykzdnunherbkueed.supabase.co';
   const SUPA_KEY = 'sb_publishable_svxqK1bZf7HR8kAWAAQwJw_QDHQHeNZ';
   const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+  const STORAGE_BUCKET = 'productos-imagenes';
 
-  let productosCache = []; // [{id, nombre, categorias, precio, activo, talles:[{id,talle}]}]
+  let productosCache = []; // [{id, nombre, liga, categorias, precio, precio_oferta, badge, imagenes, activo, talles:[{id,talle,stock_inicial}]}]
+  let prodImagenes = []; // strings (url/filename) o {uploading:true, tempId, name} mientras sube
+  let editingProductId = null;
+  let originalTalles = [];
 
   function todayStr() {
     const d = new Date();
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function monthStartStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-01';
+  }
+  function fmtMoney(n) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    const sign = n < 0 ? '-' : '';
+    return sign + '$' + Math.round(Math.abs(n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  function escHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s ?? '';
+    return d.innerHTML;
+  }
+  function escAttrVal(s) {
+    return String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
   }
 
   // ============ AUTH ============
@@ -332,7 +424,7 @@
     document.getElementById('user-email').textContent = user.email;
     await loadProductos();
     fillProductoSelects();
-    await renderStock();
+    await Promise.all([renderDashboard(), renderStock()]);
     renderProductosTable();
   }
 
@@ -369,6 +461,7 @@
       document.getElementById(btn.dataset.panel).classList.add('active');
       if (btn.dataset.panel === 'panel-stock') renderStock();
       if (btn.dataset.panel === 'panel-productos') renderProductosTable();
+      if (btn.dataset.panel === 'panel-dashboard') renderDashboard();
     });
   });
 
@@ -376,7 +469,7 @@
   async function loadProductos() {
     const { data, error } = await sb
       .from('productos')
-      .select('id, nombre, categorias, precio, activo, talles(id, talle, stock_inicial)')
+      .select('id, nombre, liga, categorias, precio, precio_oferta, badge, imagenes, activo, talles(id, talle, stock_inicial)')
       .order('nombre');
     if (error) { console.error(error); return; }
     productosCache = data || [];
@@ -402,12 +495,6 @@
   }
   document.getElementById('venta-producto').addEventListener('change', () => fillTalleSelect('venta'));
   document.getElementById('compra-producto').addEventListener('change', () => fillTalleSelect('compra'));
-
-  function escHtml(s) {
-    const d = document.createElement('div');
-    d.textContent = s ?? '';
-    return d.innerHTML;
-  }
 
   // ============ VENTA ============
   document.getElementById('venta-fecha').value = todayStr();
@@ -516,7 +603,137 @@
     });
   }
 
-  // ============ PRODUCTOS: crear ============
+  // ============ PRODUCTOS: administrador de imágenes ============
+  function renderImgManager() {
+    const wrap = document.getElementById('prod-img-manager');
+    const items = prodImagenes.map((item, i) => {
+      if (item && typeof item === 'object' && item.uploading) {
+        return `<div class="img-thumb img-uploading">Subiendo…</div>`;
+      }
+      const left = i > 0 ? `<button type="button" class="img-move img-move-left" data-action="left" data-idx="${i}">‹</button>` : '';
+      const right = i < prodImagenes.length - 1 ? `<button type="button" class="img-move img-move-right" data-action="right" data-idx="${i}">›</button>` : '';
+      return `<div class="img-thumb">
+        <img src="${escAttrVal(item)}">
+        <button type="button" class="img-remove" data-action="remove" data-idx="${i}">✕</button>
+        ${left}${right}
+      </div>`;
+    }).join('');
+    wrap.innerHTML = items + `<div class="img-add-tile" id="prod-img-add" title="Agregar imagen">+</div>`;
+    document.getElementById('prod-img-add').addEventListener('click', () => document.getElementById('prod-img-input').click());
+    wrap.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = Number(btn.dataset.idx);
+        const action = btn.dataset.action;
+        if (action === 'remove') prodImagenes.splice(idx, 1);
+        else if (action === 'left') { const t = prodImagenes[idx - 1]; prodImagenes[idx - 1] = prodImagenes[idx]; prodImagenes[idx] = t; }
+        else if (action === 'right') { const t = prodImagenes[idx + 1]; prodImagenes[idx + 1] = prodImagenes[idx]; prodImagenes[idx] = t; }
+        renderImgManager();
+      });
+    });
+  }
+
+  async function uploadImagen(file) {
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+    const path = `productos/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, file, { cacheControl: '3600', upsert: false });
+    if (error) throw error;
+    const { data } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+    return data.publicUrl;
+  }
+
+  document.getElementById('prod-img-input').addEventListener('change', async (e) => {
+    const files = Array.from(e.target.files || []);
+    e.target.value = '';
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) continue;
+      if (file.size > 8 * 1024 * 1024) { alert(`"${file.name}" pesa más de 8MB, elegí una imagen más liviana.`); continue; }
+      const tempId = 'up-' + Math.random().toString(36).slice(2);
+      prodImagenes.push({ uploading: true, tempId });
+      renderImgManager();
+      try {
+        const url = await uploadImagen(file);
+        const idx = prodImagenes.findIndex(x => x && x.tempId === tempId);
+        if (idx > -1) prodImagenes[idx] = url;
+      } catch (err) {
+        const idx = prodImagenes.findIndex(x => x && x.tempId === tempId);
+        if (idx > -1) prodImagenes.splice(idx, 1);
+        alert('No se pudo subir la imagen: ' + err.message);
+      }
+      renderImgManager();
+    }
+  });
+
+  // ============ PRODUCTOS: card colapsable + crear/editar ============
+  function expandProductForm() {
+    document.getElementById('prod-toggle').classList.add('open');
+    document.getElementById('prod-form-body').classList.add('open');
+  }
+  function collapseProductForm() {
+    document.getElementById('prod-toggle').classList.remove('open');
+    document.getElementById('prod-form-body').classList.remove('open');
+  }
+  document.getElementById('prod-toggle').addEventListener('click', () => {
+    const isOpen = document.getElementById('prod-form-body').classList.contains('open');
+    if (isOpen) collapseProductForm(); else expandProductForm();
+  });
+  document.getElementById('prod-cancel-edit').addEventListener('click', () => {
+    resetProductForm();
+    collapseProductForm();
+  });
+
+  function blankTalleRowHTML() {
+    return '<div class="talle-row"><input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button></div>';
+  }
+
+  function resetProductForm() {
+    editingProductId = null;
+    originalTalles = [];
+    document.getElementById('form-producto').reset();
+    document.getElementById('prod-activo').checked = true;
+    prodImagenes = [];
+    renderImgManager();
+    document.getElementById('prod-talles').innerHTML = blankTalleRowHTML();
+    document.getElementById('prod-form-title').textContent = 'Nuevo producto';
+    document.getElementById('prod-btn').textContent = 'Crear producto';
+    document.getElementById('prod-cancel-edit').style.display = 'none';
+    document.getElementById('prod-error').textContent = '';
+    document.getElementById('prod-ok').style.display = 'none';
+  }
+
+  function loadProductIntoForm(p) {
+    editingProductId = p.id;
+    originalTalles = (p.talles || []).map(t => ({ id: t.id, talle: t.talle, stock_inicial: t.stock_inicial }));
+    document.getElementById('prod-error').textContent = '';
+    document.getElementById('prod-ok').style.display = 'none';
+    document.getElementById('prod-nombre').value = p.nombre || '';
+    document.getElementById('prod-liga').value = p.liga || '';
+    document.getElementById('prod-precio').value = p.precio ?? '';
+    document.getElementById('prod-precio-oferta').value = p.precio_oferta ?? '';
+    document.getElementById('prod-badge').value = p.badge || '';
+    document.getElementById('prod-activo').checked = !!p.activo;
+    document.querySelectorAll('.prod-cat').forEach(cb => { cb.checked = (p.categorias || []).includes(cb.value); });
+    prodImagenes = [...(p.imagenes || [])];
+    renderImgManager();
+    const tallesWrap = document.getElementById('prod-talles');
+    if ((p.talles || []).length) {
+      tallesWrap.innerHTML = '';
+      p.talles.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'talle-row';
+        div.dataset.talleId = t.id;
+        div.innerHTML = `<input placeholder="Talle (ej: L)" class="talle-nombre" value="${escAttrVal(t.talle)}"><input type="number" placeholder="Stock" class="talle-stock" value="${t.stock_inicial}"><button type="button" onclick="this.parentElement.remove()">✕</button>`;
+        tallesWrap.appendChild(div);
+      });
+    } else {
+      tallesWrap.innerHTML = blankTalleRowHTML();
+    }
+    document.getElementById('prod-form-title').textContent = 'Editando: ' + p.nombre;
+    document.getElementById('prod-btn').textContent = 'Guardar cambios';
+    document.getElementById('prod-cancel-edit').style.display = 'inline-block';
+    expandProductForm();
+    document.getElementById('panel-productos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   document.getElementById('add-talle-row').addEventListener('click', () => {
     const wrap = document.getElementById('prod-talles');
     const div = document.createElement('div');
@@ -535,15 +752,21 @@
     const categorias = Array.from(document.querySelectorAll('.prod-cat:checked')).map(c => c.value);
     if (!categorias.length) { errEl.textContent = 'Elegí al menos una categoría.'; return; }
 
-    const talleRows = Array.from(document.querySelectorAll('#prod-talles .talle-row')).map(row => ({
+    if (prodImagenes.some(x => x && typeof x === 'object' && x.uploading)) {
+      errEl.textContent = 'Esperá a que terminen de subir las imágenes.';
+      return;
+    }
+    const imagenes = prodImagenes.filter(x => typeof x === 'string');
+
+    const currentRows = Array.from(document.querySelectorAll('#prod-talles .talle-row'));
+    const currentTalles = currentRows.map(row => ({
+      id: row.dataset.talleId || null,
       talle: row.querySelector('.talle-nombre').value.trim(),
       stock_inicial: Number(row.querySelector('.talle-stock').value) || 0,
     })).filter(t => t.talle);
-    if (!talleRows.length) { errEl.textContent = 'Agregá al menos un talle.'; return; }
+    if (!currentTalles.length) { errEl.textContent = 'Agregá al menos un talle.'; return; }
 
-    const imagenes = document.getElementById('prod-imagenes').value.split('\n').map(s => s.trim()).filter(Boolean);
-
-    const nuevoProducto = {
+    const datosProducto = {
       nombre: document.getElementById('prod-nombre').value.trim(),
       liga: document.getElementById('prod-liga').value.trim() || null,
       categorias,
@@ -551,26 +774,61 @@
       precio_oferta: document.getElementById('prod-precio-oferta').value ? Number(document.getElementById('prod-precio-oferta').value) : null,
       badge: document.getElementById('prod-badge').value.trim() || null,
       imagenes,
+      activo: document.getElementById('prod-activo').checked,
     };
 
-    btn.disabled = true; btn.textContent = 'Creando...';
-    const { data: prodData, error: prodErr } = await sb.from('productos').insert(nuevoProducto).select().single();
-    if (prodErr) { btn.disabled = false; btn.textContent = 'Crear producto'; errEl.textContent = 'Error: ' + prodErr.message; return; }
+    btn.disabled = true;
+    const warnings = [];
+    const wasEditing = !!editingProductId;
 
-    const tallesToInsert = talleRows.map(t => ({ producto_id: prodData.id, talle: t.talle, stock_inicial: t.stock_inicial }));
-    const { error: tallesErr } = await sb.from('talles').insert(tallesToInsert);
-    btn.disabled = false; btn.textContent = 'Crear producto';
-    if (tallesErr) { errEl.textContent = 'El producto se creó pero hubo un error con los talles: ' + tallesErr.message; return; }
+    if (!wasEditing) {
+      btn.textContent = 'Creando...';
+      const { data: prodData, error: prodErr } = await sb.from('productos').insert(datosProducto).select().single();
+      if (prodErr) { btn.disabled = false; btn.textContent = 'Crear producto'; errEl.textContent = 'Error: ' + prodErr.message; return; }
+      const tallesToInsert = currentTalles.map(t => ({ producto_id: prodData.id, talle: t.talle, stock_inicial: t.stock_inicial }));
+      const { error: tallesErr } = await sb.from('talles').insert(tallesToInsert);
+      if (tallesErr) warnings.push('El producto se creó pero hubo un error con los talles: ' + tallesErr.message);
+    } else {
+      btn.textContent = 'Guardando...';
+      const { error: updErr } = await sb.from('productos').update(datosProducto).eq('id', editingProductId);
+      if (updErr) { btn.disabled = false; btn.textContent = 'Guardar cambios'; errEl.textContent = 'Error: ' + updErr.message; return; }
 
-    okEl.style.display = 'block';
-    document.getElementById('form-producto').reset();
-    document.getElementById('prod-talles').innerHTML = '<div class="talle-row"><input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button></div>';
+      const toInsert = currentTalles.filter(t => !t.id);
+      const toUpdate = currentTalles.filter(t => t.id);
+      const currentIds = new Set(toUpdate.map(t => t.id));
+      const toDelete = originalTalles.filter(t => !currentIds.has(t.id));
+
+      if (toInsert.length) {
+        const { error } = await sb.from('talles').insert(toInsert.map(t => ({ producto_id: editingProductId, talle: t.talle, stock_inicial: t.stock_inicial })));
+        if (error) warnings.push('No se pudieron agregar algunos talles: ' + error.message);
+      }
+      for (const t of toUpdate) {
+        const { error } = await sb.from('talles').update({ talle: t.talle, stock_inicial: t.stock_inicial }).eq('id', t.id);
+        if (error) warnings.push(`Talle "${t.talle}": ${error.message}`);
+      }
+      for (const t of toDelete) {
+        const { error } = await sb.from('talles').delete().eq('id', t.id);
+        if (error) warnings.push(`No se pudo quitar el talle "${t.talle}" (probablemente tiene ventas o compras registradas).`);
+      }
+    }
+
+    btn.disabled = false;
     await loadProductos();
     fillProductoSelects();
     renderProductosTable();
+
+    if (warnings.length) {
+      errEl.textContent = warnings.join(' ');
+      btn.textContent = wasEditing ? 'Guardar cambios' : 'Crear producto';
+    } else {
+      okEl.textContent = wasEditing ? 'Producto actualizado.' : 'Producto creado.';
+      okEl.style.display = 'block';
+      resetProductForm();
+      collapseProductForm();
+    }
   });
 
-  // ============ PRODUCTOS: listar / editar ============
+  // ============ PRODUCTOS: listar ============
   function renderProductosTable() {
     const tbody = document.getElementById('productos-tbody');
     const emptyEl = document.getElementById('productos-empty');
@@ -581,22 +839,15 @@
         <tr data-id="${p.id}">
           <td>${escHtml(p.nombre)}</td>
           <td>${(p.categorias || []).map(c => `<span class="badge-pill">${escHtml(c)}</span>`).join(' ')}</td>
-          <td><input type="number" class="precio-edit" value="${p.precio}" style="width:90px;margin:0;padding:4px 6px;"></td>
-          <td><input type="checkbox" class="activo-edit" ${p.activo ? 'checked' : ''} style="width:auto;margin:0;"></td>
-          <td><button type="button" class="btn-secondary btn-small guardar-producto">Guardar</button></td>
+          <td>${fmtMoney(p.precio)}</td>
+          <td>${p.activo ? '<span class="stock-ok">Sí</span>' : '<span class="stock-bajo">No</span>'}</td>
+          <td><button type="button" class="btn-secondary btn-small editar-producto">Editar</button></td>
         </tr>`).join('');
-      tbody.querySelectorAll('.guardar-producto').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
+      tbody.querySelectorAll('.editar-producto').forEach(btn => {
+        btn.addEventListener('click', (e) => {
           const tr = e.target.closest('tr');
-          const id = tr.dataset.id;
-          const precio = Number(tr.querySelector('.precio-edit').value);
-          const activo = tr.querySelector('.activo-edit').checked;
-          btn.disabled = true; btn.textContent = 'Guardando...';
-          const { error } = await sb.from('productos').update({ precio, activo }).eq('id', id);
-          btn.disabled = false; btn.textContent = 'Guardar';
-          if (error) { alert('Error: ' + error.message); return; }
-          await loadProductos();
-          fillProductoSelects();
+          const p = productosCache.find(x => x.id === tr.dataset.id);
+          if (p) loadProductIntoForm(p);
         });
       });
     };
@@ -607,6 +858,115 @@
     };
   }
 
+  // ============ DASHBOARD ============
+  document.getElementById('dash-desde').value = monthStartStr();
+  document.getElementById('dash-hasta').value = todayStr();
+  document.getElementById('dash-filtrar').addEventListener('click', () => renderDashboardVentas());
+
+  async function renderDashboardVentas() {
+    const desde = document.getElementById('dash-desde').value;
+    const hasta = document.getElementById('dash-hasta').value;
+    const tbody = document.getElementById('dash-ventas-tbody');
+    const tfoot = document.getElementById('dash-ventas-tfoot');
+    const emptyEl = document.getElementById('dash-ventas-empty');
+    tbody.innerHTML = '<tr><td colspan="9" class="muted">Cargando...</td></tr>';
+    tfoot.innerHTML = '';
+    let query = sb.from('ventas').select('id,fecha,cantidad,valor_abonado,valor_costo,cliente,forma_pago,talles(talle,productos(nombre))').order('fecha', { ascending: false });
+    if (desde) query = query.gte('fecha', desde);
+    if (hasta) query = query.lte('fecha', hasta);
+    const { data, error } = await query;
+    if (error) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Error al cargar: ' + error.message; return; }
+    const rows = data || [];
+    if (!rows.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Sin ventas en este período.'; return; }
+    emptyEl.style.display = 'none';
+    let totAbonado = 0, totCosto = 0, totCant = 0;
+    tbody.innerHTML = rows.map(r => {
+      const abonado = r.valor_abonado || 0;
+      const costo = (r.valor_costo === null || r.valor_costo === undefined) ? null : r.valor_costo;
+      const rentabilidad = costo === null ? null : (abonado - costo);
+      totAbonado += abonado; totCosto += (costo || 0); totCant += r.cantidad || 0;
+      const prodNombre = (r.talles && r.talles.productos && r.talles.productos.nombre) || '—';
+      const talleNom = (r.talles && r.talles.talle) || '—';
+      return `<tr>
+        <td>${escHtml(r.fecha)}</td>
+        <td>${escHtml(prodNombre)}</td>
+        <td>${escHtml(talleNom)}</td>
+        <td>${r.cantidad}</td>
+        <td>${fmtMoney(abonado)}</td>
+        <td>${costo === null ? '—' : fmtMoney(costo)}</td>
+        <td class="${rentabilidad !== null && rentabilidad < 0 ? 'stock-bajo' : 'stock-ok'}">${rentabilidad === null ? '—' : fmtMoney(rentabilidad)}</td>
+        <td>${escHtml(r.cliente || '—')}</td>
+        <td>${escHtml(r.forma_pago || '—')}</td>
+      </tr>`;
+    }).join('');
+    const totRentabilidad = totAbonado - totCosto;
+    tfoot.innerHTML = `<tr>
+      <td colspan="3">Totales</td>
+      <td>${totCant}</td>
+      <td>${fmtMoney(totAbonado)}</td>
+      <td>${fmtMoney(totCosto)}</td>
+      <td class="${totRentabilidad < 0 ? 'stock-bajo' : 'stock-ok'}">${fmtMoney(totRentabilidad)}</td>
+      <td colspan="2"></td>
+    </tr>`;
+  }
+
+  async function renderDashboardSaldo() {
+    const tbody = document.getElementById('dash-saldo-tbody');
+    const emptyEl = document.getElementById('dash-saldo-empty');
+    const totalEl = document.getElementById('dash-saldo-total');
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">Cargando...</td></tr>';
+    totalEl.textContent = '';
+    const [ventasRes, comprasRes] = await Promise.all([
+      sb.from('ventas').select('fecha,valor_abonado'),
+      sb.from('compras').select('fecha,cantidad,costo_unitario'),
+    ]);
+    if (ventasRes.error || comprasRes.error) {
+      tbody.innerHTML = ''; emptyEl.style.display = 'block';
+      emptyEl.textContent = 'Error al cargar: ' + ((ventasRes.error && ventasRes.error.message) || (comprasRes.error && comprasRes.error.message));
+      return;
+    }
+    const meses = new Map();
+    (ventasRes.data || []).forEach(v => {
+      if (!v.fecha) return;
+      const key = v.fecha.slice(0, 7);
+      const m = meses.get(key) || { ingreso: 0, egreso: 0 };
+      m.ingreso += v.valor_abonado || 0;
+      meses.set(key, m);
+    });
+    (comprasRes.data || []).forEach(c => {
+      if (!c.fecha) return;
+      const key = c.fecha.slice(0, 7);
+      const m = meses.get(key) || { ingreso: 0, egreso: 0 };
+      m.egreso += (c.cantidad || 0) * (c.costo_unitario || 0);
+      meses.set(key, m);
+    });
+    if (!meses.size) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Sin movimientos registrados.'; return; }
+    emptyEl.style.display = 'none';
+    const keys = Array.from(meses.keys()).sort();
+    const nombresMes = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    let acumulado = 0;
+    tbody.innerHTML = keys.map(key => {
+      const { ingreso, egreso } = meses.get(key);
+      const saldoMes = ingreso - egreso;
+      acumulado += saldoMes;
+      const [y, m] = key.split('-');
+      const label = `${nombresMes[Number(m) - 1]} ${y}`;
+      return `<tr>
+        <td>${label}</td>
+        <td>${fmtMoney(ingreso)}</td>
+        <td>${fmtMoney(egreso)}</td>
+        <td class="${saldoMes < 0 ? 'stock-bajo' : 'stock-ok'}">${fmtMoney(saldoMes)}</td>
+        <td class="${acumulado < 0 ? 'stock-bajo' : 'stock-ok'}">${fmtMoney(acumulado)}</td>
+      </tr>`;
+    }).join('');
+    totalEl.innerHTML = `Saldo acumulado total: <span class="${acumulado < 0 ? 'stock-bajo' : 'stock-ok'}">${fmtMoney(acumulado)}</span>`;
+  }
+
+  async function renderDashboard() {
+    await Promise.all([renderDashboardVentas(), renderDashboardSaldo()]);
+  }
+
+  renderImgManager();
   checkSession();
 })();
 </script>
