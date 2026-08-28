@@ -111,3 +111,9 @@ create policy "ventas admin" on ventas for all using (auth.role() = 'authenticat
 -- Nota: vista_stock hereda RLS de las tablas base, así que solo el panel admin
 -- (autenticado) puede leerla directo. El sitio público llama a la función
 -- stock_publico() vía RPC, que expone únicamente disponible true/false por talle.
+
+-- ============ GRANTS ============
+-- Postgres exige un GRANT de tabla además de las políticas de RLS. Sin esto,
+-- "anon" no puede leer ni siquiera lo que las políticas permitirían.
+grant select on productos, talles to anon, authenticated;
+grant select, insert, update, delete on productos, talles, compras, ventas to authenticated;
