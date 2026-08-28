@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>RGOL.UY | Panel privado</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C; --gold-light: #F0C96B; --gold-dark: #8B6B1F;
+    --bg-dark: #0D0D0D; --bg-card: #181818; --bg-section: #141414;
+    --text: #F0EDE6; --text-muted: #888; --border: rgba(201,168,76,0.25);
+    --danger: #e5484d; --ok: #25D366;
+  }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; }
+  a { color: var(--gold); }
+
+  /* ---- LOGIN ---- */
+  #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .login-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; width: 100%; max-width: 360px; }
+  .login-logo { font-family: 'Georgia', serif; font-size: 28px; letter-spacing: 0.06em; color: var(--gold); text-align: center; margin-bottom: 4px; }
+  .login-sub { text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 28px; }
+  label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  input, select, textarea { width: 100%; background: #111; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 10px 12px; font-size: 14px; font-family: inherit; margin-bottom: 16px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
+  button { font-family: inherit; cursor: pointer; }
+  .btn { background: var(--gold); color: #0D0D0D; border: none; border-radius: 6px; padding: 11px 20px; font-size: 14px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; width: 100%; transition: background 0.2s; }
+  .btn:hover { background: var(--gold-light); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-small { padding: 6px 12px; font-size: 12px; width: auto; }
+  .error-msg { color: var(--danger); font-size: 13px; margin-top: -8px; margin-bottom: 16px; min-height: 16px; }
+  .ok-msg { color: var(--ok); font-size: 13px; margin-bottom: 16px; }
+
+  /* ---- APP ---- */
+  #app { display: none; }
+  header { background: #080808; border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+  .app-logo { font-size: 20px; color: var(--gold); letter-spacing: 0.05em; }
+  .app-logo span { color: var(--text-muted); font-size: 12px; margin-left: 8px; }
+  header .who { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 14px; }
+
+  nav.tabs { display: flex; gap: 4px; padding: 0 24px; background: #111; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  nav.tabs button { background: none; border: none; color: var(--text-muted); padding: 14px 18px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; border-bottom: 2px solid transparent; white-space: nowrap; }
+  nav.tabs button.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  main { padding: 28px 24px 80px; max-width: 1100px; margin: 0 auto; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 24px; }
+  .card h2 { font-size: 16px; color: var(--gold); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 16px; }
+  @media (max-width: 640px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  tr:hover td { background: rgba(201,168,76,0.04); }
+  .table-wrap { overflow-x: auto; }
+  .stock-bajo { color: var(--danger); font-weight: 700; }
+  .stock-ok { color: var(--ok); }
+  .search-bar { margin-bottom: 16px; }
+  .badge-pill { display: inline-block; background: rgba(201,168,76,0.15); color: var(--gold); border-radius: 12px; padding: 2px 10px; font-size: 11px; }
+  .muted { color: var(--text-muted); }
+  .talles-inline { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; margin-bottom: 16px; }
+  .talle-row { display: flex; gap: 6px; align-items: center; background: #111; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; }
+  .talle-row input { width: 70px; margin-bottom: 0; padding: 4px 6px; }
+  .talle-row button { background: none; border: none; color: var(--danger); font-size: 16px; padding: 0 4px; }
+  #stock-empty, #productos-empty { color: var(--text-muted); text-align: center; padding: 24px; }
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN ============ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">RGOL.UY</div>
+    <div class="login-sub">Panel privado</div>
+    <form id="login-form">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" autocomplete="username" required>
+      <label for="login-password">Contraseña</label>
+      <input type="password" id="login-password" autocomplete="current-password" required>
+      <div class="error-msg" id="login-error"></div>
+      <button type="submit" class="btn" id="login-btn">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <header>
+    <div class="app-logo">RGOL.UY <span>panel privado</span></div>
+    <div class="who">
+      <span id="user-email"></span>
+      <button class="btn-secondary btn-small" id="logout-btn">Salir</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-panel="panel-vender" class="active">Vender</button>
+    <button data-panel="panel-comprar">Comprar / Stock</button>
+    <button data-panel="panel-stock">Stock actual</button>
+    <button data-panel="panel-productos">Productos</button>
+  </nav>
+
+  <main>
+
+    <!-- ---- VENDER ---- -->
+    <section class="panel active" id="panel-vender">
+      <div class="card">
+        <h2>Registrar venta</h2>
+        <form id="form-venta">
+          <div class="grid2">
+            <div>
+              <label for="venta-producto">Producto</label>
+              <select id="venta-producto" required></select>
+            </div>
+            <div>
+              <label for="venta-talle">Talle</label>
+              <select id="venta-talle" required></select>
+            </div>
+          </div>
+          <div class="grid3">
+            <div>
+              <label for="venta-cantidad">Cantidad</label>
+              <input type="number" id="venta-cantidad" min="1" value="1" required>
+            </div>
+            <div>
+              <label for="venta-abonado">Valor abonado</label>
+              <input type="number" id="venta-abonado" min="0" step="1" required>
+            </div>
+            <div>
+              <label for="venta-costo">Valor costo (opcional)</label>
+              <input type="number" id="venta-costo" min="0" step="1">
+            </div>
+          </div>
+          <div class="grid3">
+            <div>
+              <label for="venta-forma-pago">Forma de pago</label>
+              <select id="venta-forma-pago">
+                <option>Mercado Pago</option>
+                <option>Transferencia</option>
+                <option>Efectivo</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="venta-cliente">Cliente</label>
+              <input type="text" id="venta-cliente">
+            </div>
+            <div>
+              <label for="venta-fecha">Fecha</label>
+              <input type="date" id="venta-fecha" required>
+            </div>
+          </div>
+          <label for="venta-nota">Nota (opcional)</label>
+          <textarea id="venta-nota" rows="2"></textarea>
+          <div class="error-msg" id="venta-error"></div>
+          <div class="ok-msg" id="venta-ok" style="display:none">Venta registrada.</div>
+          <button type="submit" class="btn" id="venta-btn" style="max-width:220px">Registrar venta</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ---- COMPRAR ---- -->
+    <section class="panel" id="panel-comprar">
+      <div class="card">
+        <h2>Registrar compra (ingreso de stock)</h2>
+        <form id="form-compra">
+          <div class="grid2">
+            <div>
+              <label for="compra-producto">Producto</label>
+              <select id="compra-producto" required></select>
+            </div>
+            <div>
+              <label for="compra-talle">Talle</label>
+              <select id="compra-talle" required></select>
+            </div>
+          </div>
+          <div class="grid3">
+            <div>
+              <label for="compra-cantidad">Cantidad</label>
+              <input type="number" id="compra-cantidad" min="1" value="1" required>
+            </div>
+            <div>
+              <label for="compra-costo">Costo unitario</label>
+              <input type="number" id="compra-costo" min="0" step="1">
+            </div>
+            <div>
+              <label for="compra-fecha">Fecha</label>
+              <input type="date" id="compra-fecha" required>
+            </div>
+          </div>
+          <div class="grid2">
+            <div>
+              <label for="compra-proveedor">Proveedor</label>
+              <input type="text" id="compra-proveedor">
+            </div>
+            <div>
+              <label for="compra-forma-pago">Forma de pago</label>
+              <select id="compra-forma-pago">
+                <option>Transferencia</option>
+                <option>Efectivo</option>
+                <option>Mercado Pago</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <label for="compra-nota">Nota (opcional)</label>
+          <textarea id="compra-nota" rows="2"></textarea>
+          <div class="error-msg" id="compra-error"></div>
+          <div class="ok-msg" id="compra-ok" style="display:none">Compra registrada — el stock ya se actualizó.</div>
+          <button type="submit" class="btn" id="compra-btn" style="max-width:220px">Registrar compra</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ---- STOCK ---- -->
+    <section class="panel" id="panel-stock">
+      <div class="card">
+        <h2>Stock actual</h2>
+        <input type="text" class="search-bar" id="stock-search" placeholder="Buscar producto...">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Producto</th><th>Talle</th><th>Stock inicial</th><th>Comprado</th><th>Vendido</th><th>Stock actual</th><th></th></tr></thead>
+            <tbody id="stock-tbody"></tbody>
+          </table>
+          <p id="stock-empty" style="display:none">Sin resultados.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- PRODUCTOS ---- -->
+    <section class="panel" id="panel-productos">
+      <div class="card">
+        <h2>Nuevo producto</h2>
+        <form id="form-producto">
+          <div class="grid2">
+            <div>
+              <label for="prod-nombre">Nombre</label>
+              <input type="text" id="prod-nombre" placeholder="Ej: River Plate · Titular 25/26" required>
+            </div>
+            <div>
+              <label for="prod-liga">Liga / etiqueta (texto libre)</label>
+              <input type="text" id="prod-liga" placeholder="Ej: Liga Argentina">
+            </div>
+          </div>
+          <div class="grid3">
+            <div>
+              <label for="prod-precio">Precio</label>
+              <input type="number" id="prod-precio" min="0" step="1" required>
+            </div>
+            <div>
+              <label for="prod-precio-oferta">Precio anterior (si está en oferta)</label>
+              <input type="number" id="prod-precio-oferta" min="0" step="1">
+            </div>
+            <div>
+              <label for="prod-badge">Badge (opcional: Retro, Sale...)</label>
+              <input type="text" id="prod-badge">
+            </div>
+          </div>
+          <label>Categorías</label>
+          <div style="margin-bottom:16px; display:flex; gap:18px; font-size:13px;">
+            <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="equipos" class="prod-cat" style="width:auto;margin:0;"> Equipos</label>
+            <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="selecciones" class="prod-cat" style="width:auto;margin:0;"> Selecciones</label>
+            <label style="display:flex;align-items:center;gap:6px;text-transform:none;margin:0;"><input type="checkbox" value="retro" class="prod-cat" style="width:auto;margin:0;"> Retro</label>
+          </div>
+          <label for="prod-imagenes">Nombres de archivo de imagen (uno por línea, ya subidos a la carpeta del sitio)</label>
+          <textarea id="prod-imagenes" rows="3" placeholder="RiverPlate_Titular2526_1.jpg&#10;RiverPlate_Titular2526_2.jpg"></textarea>
+          <label>Talles y stock inicial</label>
+          <div class="talles-inline" id="prod-talles">
+            <div class="talle-row"><input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button></div>
+          </div>
+          <button type="button" class="btn-secondary btn-small" id="add-talle-row" style="margin-bottom:20px;">+ Agregar talle</button>
+          <div class="error-msg" id="prod-error"></div>
+          <div class="ok-msg" id="prod-ok" style="display:none">Producto creado.</div>
+          <button type="submit" class="btn" id="prod-btn" style="max-width:220px">Crear producto</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Productos existentes</h2>
+        <input type="text" class="search-bar" id="productos-search" placeholder="Buscar producto...">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Producto</th><th>Categorías</th><th>Precio</th><th>Activo</th><th></th></tr></thead>
+            <tbody id="productos-tbody"></tbody>
+          </table>
+          <p id="productos-empty" style="display:none">Sin resultados.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  const SUPA_URL = 'https://ncaxykzdnunherbkueed.supabase.co';
+  const SUPA_KEY = 'sb_publishable_svxqK1bZf7HR8kAWAAQwJw_QDHQHeNZ';
+  const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+  let productosCache = []; // [{id, nombre, categorias, precio, activo, talles:[{id,talle}]}]
+
+  function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  // ============ AUTH ============
+  async function checkSession() {
+    const { data } = await sb.auth.getSession();
+    if (data.session) {
+      showApp(data.session.user);
+    } else {
+      showLogin();
+    }
+  }
+
+  function showLogin() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+  }
+
+  async function showApp(user) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('user-email').textContent = user.email;
+    await loadProductos();
+    fillProductoSelects();
+    await renderStock();
+    renderProductosTable();
+  }
+
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    const btn = document.getElementById('login-btn');
+    errEl.textContent = '';
+    btn.disabled = true;
+    btn.textContent = 'Entrando...';
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
+    if (error) {
+      errEl.textContent = 'Email o contraseña incorrectos.';
+      return;
+    }
+    showApp(data.user);
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    showLogin();
+  });
+
+  // ============ TABS ============
+  document.querySelectorAll('nav.tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+      if (btn.dataset.panel === 'panel-stock') renderStock();
+      if (btn.dataset.panel === 'panel-productos') renderProductosTable();
+    });
+  });
+
+  // ============ DATA ============
+  async function loadProductos() {
+    const { data, error } = await sb
+      .from('productos')
+      .select('id, nombre, categorias, precio, activo, talles(id, talle, stock_inicial)')
+      .order('nombre');
+    if (error) { console.error(error); return; }
+    productosCache = data || [];
+  }
+
+  function fillProductoSelects() {
+    const opts = productosCache
+      .filter(p => p.activo)
+      .map(p => `<option value="${p.id}">${escHtml(p.nombre)}</option>`).join('');
+    ['venta-producto', 'compra-producto'].forEach(id => {
+      const el = document.getElementById(id);
+      el.innerHTML = '<option value="">Elegir...</option>' + opts;
+    });
+  }
+
+  function fillTalleSelect(prefix) {
+    const prodId = document.getElementById(prefix + '-producto').value;
+    const talleSel = document.getElementById(prefix + '-talle');
+    const prod = productosCache.find(p => p.id === prodId);
+    const talles = prod ? prod.talles : [];
+    talleSel.innerHTML = '<option value="">Elegir...</option>' +
+      talles.map(t => `<option value="${t.id}">${escHtml(t.talle)}</option>`).join('');
+  }
+  document.getElementById('venta-producto').addEventListener('change', () => fillTalleSelect('venta'));
+  document.getElementById('compra-producto').addEventListener('change', () => fillTalleSelect('compra'));
+
+  function escHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s ?? '';
+    return d.innerHTML;
+  }
+
+  // ============ VENTA ============
+  document.getElementById('venta-fecha').value = todayStr();
+  document.getElementById('form-venta').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('venta-error');
+    const okEl = document.getElementById('venta-ok');
+    const btn = document.getElementById('venta-btn');
+    errEl.textContent = ''; okEl.style.display = 'none';
+    const talle_id = document.getElementById('venta-talle').value;
+    if (!talle_id) { errEl.textContent = 'Elegí un producto y un talle.'; return; }
+    const row = {
+      talle_id,
+      cantidad: Number(document.getElementById('venta-cantidad').value) || 1,
+      valor_abonado: document.getElementById('venta-abonado').value ? Number(document.getElementById('venta-abonado').value) : null,
+      valor_costo: document.getElementById('venta-costo').value ? Number(document.getElementById('venta-costo').value) : null,
+      forma_pago: document.getElementById('venta-forma-pago').value,
+      cliente: document.getElementById('venta-cliente').value || null,
+      fecha: document.getElementById('venta-fecha').value,
+      nota: document.getElementById('venta-nota').value || null,
+    };
+    btn.disabled = true;
+    const { error } = await sb.from('ventas').insert(row);
+    btn.disabled = false;
+    if (error) { errEl.textContent = 'Error al guardar: ' + error.message; return; }
+    okEl.style.display = 'block';
+    document.getElementById('form-venta').reset();
+    document.getElementById('venta-fecha').value = todayStr();
+    document.getElementById('venta-cantidad').value = 1;
+    document.getElementById('venta-talle').innerHTML = '<option value="">Elegir...</option>';
+  });
+
+  // ============ COMPRA ============
+  document.getElementById('compra-fecha').value = todayStr();
+  document.getElementById('form-compra').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('compra-error');
+    const okEl = document.getElementById('compra-ok');
+    const btn = document.getElementById('compra-btn');
+    errEl.textContent = ''; okEl.style.display = 'none';
+    const talle_id = document.getElementById('compra-talle').value;
+    if (!talle_id) { errEl.textContent = 'Elegí un producto y un talle.'; return; }
+    const row = {
+      talle_id,
+      cantidad: Number(document.getElementById('compra-cantidad').value) || 1,
+      costo_unitario: document.getElementById('compra-costo').value ? Number(document.getElementById('compra-costo').value) : null,
+      proveedor: document.getElementById('compra-proveedor').value || null,
+      forma_pago: document.getElementById('compra-forma-pago').value,
+      fecha: document.getElementById('compra-fecha').value,
+      nota: document.getElementById('compra-nota').value || null,
+    };
+    btn.disabled = true;
+    const { error } = await sb.from('compras').insert(row);
+    btn.disabled = false;
+    if (error) { errEl.textContent = 'Error al guardar: ' + error.message; return; }
+    okEl.style.display = 'block';
+    document.getElementById('form-compra').reset();
+    document.getElementById('compra-fecha').value = todayStr();
+    document.getElementById('compra-cantidad').value = 1;
+    document.getElementById('compra-talle').innerHTML = '<option value="">Elegir...</option>';
+  });
+
+  // ============ STOCK ============
+  async function renderStock() {
+    const tbody = document.getElementById('stock-tbody');
+    const emptyEl = document.getElementById('stock-empty');
+    tbody.innerHTML = '<tr><td colspan="7" class="muted">Cargando...</td></tr>';
+    const { data, error } = await sb.from('vista_stock').select('*').order('nombre');
+    if (error) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Error al cargar: ' + error.message; return; }
+    window.__stockData = data || [];
+    drawStockRows(window.__stockData);
+    document.getElementById('stock-search').oninput = (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const filtered = window.__stockData.filter(r => r.nombre.toLowerCase().includes(q));
+      drawStockRows(filtered);
+    };
+  }
+
+  function drawStockRows(rows) {
+    const tbody = document.getElementById('stock-tbody');
+    const emptyEl = document.getElementById('stock-empty');
+    if (!rows.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Sin resultados.'; return; }
+    emptyEl.style.display = 'none';
+    tbody.innerHTML = rows.map(r => {
+      return `<tr data-talle-id="${r.talle_id}">
+        <td>${escHtml(r.nombre)}</td>
+        <td>${escHtml(r.talle)}</td>
+        <td><input type="number" class="stock-inicial-edit" value="${r.stock_inicial}" style="width:70px;margin:0;padding:4px 6px;"></td>
+        <td class="muted">—</td>
+        <td class="muted">—</td>
+        <td class="${r.stock_actual <= 0 ? 'stock-bajo' : 'stock-ok'}">${r.stock_actual}</td>
+        <td><button type="button" class="btn-secondary btn-small guardar-inicial">Guardar</button></td>
+      </tr>`;
+    }).join('');
+    tbody.querySelectorAll('.guardar-inicial').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const tr = e.target.closest('tr');
+        const talleId = tr.dataset.talleId;
+        const nuevoValor = Number(tr.querySelector('.stock-inicial-edit').value) || 0;
+        btn.disabled = true; btn.textContent = 'Guardando...';
+        const { error } = await sb.from('talles').update({ stock_inicial: nuevoValor }).eq('id', talleId);
+        btn.disabled = false; btn.textContent = 'Guardar';
+        if (error) { alert('Error: ' + error.message); return; }
+        await renderStock();
+      });
+    });
+  }
+
+  // ============ PRODUCTOS: crear ============
+  document.getElementById('add-talle-row').addEventListener('click', () => {
+    const wrap = document.getElementById('prod-talles');
+    const div = document.createElement('div');
+    div.className = 'talle-row';
+    div.innerHTML = '<input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button>';
+    wrap.appendChild(div);
+  });
+
+  document.getElementById('form-producto').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('prod-error');
+    const okEl = document.getElementById('prod-ok');
+    const btn = document.getElementById('prod-btn');
+    errEl.textContent = ''; okEl.style.display = 'none';
+
+    const categorias = Array.from(document.querySelectorAll('.prod-cat:checked')).map(c => c.value);
+    if (!categorias.length) { errEl.textContent = 'Elegí al menos una categoría.'; return; }
+
+    const talleRows = Array.from(document.querySelectorAll('#prod-talles .talle-row')).map(row => ({
+      talle: row.querySelector('.talle-nombre').value.trim(),
+      stock_inicial: Number(row.querySelector('.talle-stock').value) || 0,
+    })).filter(t => t.talle);
+    if (!talleRows.length) { errEl.textContent = 'Agregá al menos un talle.'; return; }
+
+    const imagenes = document.getElementById('prod-imagenes').value.split('\n').map(s => s.trim()).filter(Boolean);
+
+    const nuevoProducto = {
+      nombre: document.getElementById('prod-nombre').value.trim(),
+      liga: document.getElementById('prod-liga').value.trim() || null,
+      categorias,
+      precio: Number(document.getElementById('prod-precio').value),
+      precio_oferta: document.getElementById('prod-precio-oferta').value ? Number(document.getElementById('prod-precio-oferta').value) : null,
+      badge: document.getElementById('prod-badge').value.trim() || null,
+      imagenes,
+    };
+
+    btn.disabled = true; btn.textContent = 'Creando...';
+    const { data: prodData, error: prodErr } = await sb.from('productos').insert(nuevoProducto).select().single();
+    if (prodErr) { btn.disabled = false; btn.textContent = 'Crear producto'; errEl.textContent = 'Error: ' + prodErr.message; return; }
+
+    const tallesToInsert = talleRows.map(t => ({ producto_id: prodData.id, talle: t.talle, stock_inicial: t.stock_inicial }));
+    const { error: tallesErr } = await sb.from('talles').insert(tallesToInsert);
+    btn.disabled = false; btn.textContent = 'Crear producto';
+    if (tallesErr) { errEl.textContent = 'El producto se creó pero hubo un error con los talles: ' + tallesErr.message; return; }
+
+    okEl.style.display = 'block';
+    document.getElementById('form-producto').reset();
+    document.getElementById('prod-talles').innerHTML = '<div class="talle-row"><input placeholder="Talle (ej: L)" class="talle-nombre"><input type="number" placeholder="Stock" class="talle-stock" value="1"><button type="button" onclick="this.parentElement.remove()">✕</button></div>';
+    await loadProductos();
+    fillProductoSelects();
+    renderProductosTable();
+  });
+
+  // ============ PRODUCTOS: listar / editar ============
+  function renderProductosTable() {
+    const tbody = document.getElementById('productos-tbody');
+    const emptyEl = document.getElementById('productos-empty');
+    const draw = (list) => {
+      if (!list.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; return; }
+      emptyEl.style.display = 'none';
+      tbody.innerHTML = list.map(p => `
+        <tr data-id="${p.id}">
+          <td>${escHtml(p.nombre)}</td>
+          <td>${(p.categorias || []).map(c => `<span class="badge-pill">${escHtml(c)}</span>`).join(' ')}</td>
+          <td><input type="number" class="precio-edit" value="${p.precio}" style="width:90px;margin:0;padding:4px 6px;"></td>
+          <td><input type="checkbox" class="activo-edit" ${p.activo ? 'checked' : ''} style="width:auto;margin:0;"></td>
+          <td><button type="button" class="btn-secondary btn-small guardar-producto">Guardar</button></td>
+        </tr>`).join('');
+      tbody.querySelectorAll('.guardar-producto').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const tr = e.target.closest('tr');
+          const id = tr.dataset.id;
+          const precio = Number(tr.querySelector('.precio-edit').value);
+          const activo = tr.querySelector('.activo-edit').checked;
+          btn.disabled = true; btn.textContent = 'Guardando...';
+          const { error } = await sb.from('productos').update({ precio, activo }).eq('id', id);
+          btn.disabled = false; btn.textContent = 'Guardar';
+          if (error) { alert('Error: ' + error.message); return; }
+          await loadProductos();
+          fillProductoSelects();
+        });
+      });
+    };
+    draw(productosCache);
+    document.getElementById('productos-search').oninput = (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      draw(productosCache.filter(p => p.nombre.toLowerCase().includes(q)));
+    };
+  }
+
+  checkSession();
+})();
+</script>
+</body>
+</html>
