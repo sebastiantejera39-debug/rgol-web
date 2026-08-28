@@ -1,3 +1,8 @@
+-- Si ya corriste una versión anterior de este schema (con "categoria" en vez de
+-- "categorias"), corré primero este bloque para empezar limpio antes del resto:
+--   drop table if exists ventas, compras, talles, productos cascade;
+--   drop function if exists stock_publico();
+
 -- RGOL.UY — esquema de base de datos (Supabase / Postgres)
 -- Reemplaza el registro manual en Excel: productos, talles, stock, compras y ventas.
 
@@ -6,7 +11,11 @@ create table if not exists productos (
   id uuid primary key default gen_random_uuid(),
   nombre text not null,
   liga text,
-  categoria text not null check (categoria in ('equipos','selecciones','retro')),
+  categorias text[] not null default '{}',
+  constraint categorias_validas check (
+    categorias <@ array['equipos','selecciones','retro']::text[]
+    and array_length(categorias,1) > 0
+  ),
   precio numeric not null,
   precio_oferta numeric,
   badge text,
