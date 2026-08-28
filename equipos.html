@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0R4DW6T3NB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0R4DW6T3NB');
+</script>
+
+<title>RGOL.UY | Camisetas de Equipos y Clubes de Fútbol</title>
+<meta name="description" content="Camisetas de los principales clubes de fútbol del mundo: Real Madrid, Boca, River y más. Calidad premium, envíos a todo Uruguay.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rgoluy.netlify.app/equipos.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RGOL.UY">
+<meta property="og:title" content="RGOL.UY | Camisetas de Equipos y Clubes de Fútbol">
+<meta property="og:description" content="Camisetas de los principales clubes de fútbol del mundo: Real Madrid, Boca, River y más. Calidad premium, envíos a todo Uruguay.">
+<meta property="og:image" content="https://rgoluy.netlify.app/logo-hero.png">
+<meta property="og:url" content="https://rgoluy.netlify.app/equipos.html">
+<meta property="og:locale" content="es_UY">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RGOL.UY | Camisetas de Equipos y Clubes de Fútbol">
+<meta name="twitter:description" content="Camisetas de los principales clubes de fútbol del mundo: Real Madrid, Boca, River y más. Calidad premium, envíos a todo Uruguay.">
+<meta name="twitter:image" content="https://rgoluy.netlify.app/logo-hero.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cart.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --gold: #C9A84C; --gold-light: #F0C96B; --gold-dark: #8B6B1F; --bg-dark: #0D0D0D; --bg-card: #181818; --text: #F0EDE6; --text-muted: #888; --border: rgba(201,168,76,0.25); }
+  body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; }
+  .topbar { background: #080808; border-bottom: 1px solid var(--border); padding: 8px 0; text-align: center; font-size: 13px; color: var(--gold-light); letter-spacing: 0.08em; }
+  header { background: var(--bg-dark); border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+  .logo-main { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); letter-spacing: 0.06em; }
+  .logo-sub { font-size: 10px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; }
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .btn-icon { color: var(--gold); display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 8px; transition: background 0.2s, border-color 0.2s; text-decoration: none; }
+  .btn-icon:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+  nav { background: #111; border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; overflow-x: auto; }
+  nav a { color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; padding: 14px 20px; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; }
+  nav a:hover, nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .page-hero { background: linear-gradient(135deg, #0D0D0D 0%, #1a1200 50%, #0D0D0D 100%); border-bottom: 1px solid var(--border); padding: 48px 40px 36px; }
+  .page-eyebrow { font-size: 11px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .page-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+  .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 56px); line-height: 1; color: var(--text); }
+  .page-title span { color: var(--gold); }
+  .section { padding: 48px 40px; }
+  .filter-tabs { display: flex; gap: 8px; margin-bottom: 36px; flex-wrap: wrap; }
+  .filter-tab { background: #1e1e1e; border: 1px solid var(--border); color: var(--text-muted); border-radius: 20px; padding: 7px 18px; font-size: 13px; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+  .filter-tab:hover, .filter-tab.active { background: var(--gold); color: #0D0D0D; border-color: var(--gold); font-weight: 600; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+  .product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+  .product-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+  .carousel { position: relative; aspect-ratio: 1/1; background: #111; overflow: hidden; }
+  .carousel-track { display: flex; height: 100%; transition: transform 0.35s ease; }
+  .carousel-track img { min-width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+  .carousel-track .placeholder { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 80px; flex-shrink: 0; background: #1a1a1a; }
+  .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.55); border: 1px solid var(--border); color: var(--gold); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; z-index: 2; transition: background 0.2s; }
+  .carousel-btn:hover { background: rgba(201,168,76,0.25); }
+  .carousel-btn.prev { left: 8px; } .carousel-btn.next { right: 8px; }
+  .carousel-dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; }
+  .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.2s; }
+  .carousel-dot.active { background: var(--gold); }
+  .badge { position: absolute; top: 10px; left: 10px; background: var(--gold); color: #0D0D0D; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; padding: 3px 8px; z-index: 3; }
+  .badge-sale { background: #E53E3E; color: #fff; }
+  .product-info { padding: 14px 16px 8px; }
+  .product-league { font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .product-name { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+  .product-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .price-current { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); }
+  .price-old { font-size: 12px; color: var(--text-muted); text-decoration: line-through; }
+  .sizes-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .sizes { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .size-btn { background: #222; border: 1px solid var(--border); color: var(--text); border-radius: 5px; padding: 4px 9px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+  .size-btn:hover:not(.agotado) { border-color: var(--gold); color: var(--gold); }
+  .size-btn.selected { background: var(--gold); border-color: var(--gold); color: #0D0D0D; }
+  .size-btn.agotado { color: var(--text-muted); border-color: #333; text-decoration: line-through; cursor: not-allowed; opacity: 0.5; }
+  .product-footer { padding: 0 16px 14px; }
+  .btn-buy { width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 6px; padding: 9px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+  .btn-buy:hover { background: var(--gold); color: #0D0D0D; }
+  footer { background: #080808; border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer p { font-size: 12px; color: var(--text-muted); }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 0.08em; }
+  @media (max-width: 768px) {
+    header { padding: 14px 20px; } nav { padding: 0 20px; } .page-hero { padding: 36px 20px 28px; } .section { padding: 36px 20px; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .product-name { font-size: 12px; } .price-current { font-size: 18px; } .btn-buy { font-size: 11px; padding: 8px; } .size-btn { padding: 3px 7px; font-size: 10px; }
+    footer { padding: 20px; flex-direction: column; text-align: center; }
+  }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: min(90vw, 800px); max-height: 90vh; object-fit: contain; width: auto; height: auto; border-radius: 8px; pointer-events: none; }
+  .lightbox-close { position: absolute; top: 20px; right: 28px; color: #fff; font-size: 36px; cursor: pointer; line-height: 1; opacity: 0.8; transition: opacity 0.2s; }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 2; }
+  .lightbox-nav:hover { background: rgba(201,168,76,0.4); border-color: var(--gold); color: var(--gold); }
+  .lightbox-nav.prev { left: 20px; }
+  .lightbox-nav.next { right: 20px; }
+  .carousel-track img { cursor: zoom-in; }
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <span class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">✕</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div class="topbar">⚡ ENVÍOS A TODO EL PAÍS · CALIDAD PREMIUM</div>
+<header>
+  <a class="logo" href="index.html"><span class="logo-main">RGOL.UY</span><span class="logo-sub">Vestite de historia</span></a>
+  <div class="header-actions">
+    <a href="https://www.instagram.com/rgol.uy" target="_blank" class="btn-icon" title="Instagram"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="https://wa.me/598098037399" target="_blank" class="btn-icon" title="WhatsApp"><svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.121 1.535 5.857L.057 23.522a.75.75 0 0 0 .921.921l5.666-1.478A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.715 9.715 0 0 1-4.976-1.367l-.356-.213-3.696.964.984-3.595-.233-.37A9.712 9.712 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></a>
+  </div>
+</header>
+<nav>
+  <a href="index.html">Inicio</a>
+  <a href="catalogo.html">Catálogo</a>
+  <a href="equipos.html" class="active">Equipos de fútbol</a>
+  <a href="selecciones.html">Selecciones</a>
+  <a href="retro.html">Camisetas retro</a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-eyebrow">Catálogo</div>
+  <div class="page-title">EQUIPOS DE <span>FÚTBOL</span></div>
+</div>
+
+<section class="section">
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterProducts(this,'all')">Todos</button>
+    <button class="filter-tab" onclick="filterProducts(this,'españa')">España</button>
+    <button class="filter-tab" onclick="filterProducts(this,'england')">Inglaterra</button>
+    <button class="filter-tab" onclick="filterProducts(this,'francia')">Francia</button>
+    <button class="filter-tab" onclick="filterProducts(this,'sudamerica')">Sudamérica</button>
+    <button class="filter-tab" onclick="filterProducts(this,'mls')">MLS</button>
+  </div>
+
+  <div class="product-grid" id="productGrid">
+
+    <!-- REAL MADRID TITULAR 25/26 - M, L -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e1">
+        <div class="carousel-track">
+          <img src="RealMadrid_Titular2526_1.jpg" alt="Real Madrid Titular 25/26" loading="lazy">
+          <img src="RealMadrid_Titular2526_2.jpg" alt="Real Madrid Titular 25/26 dorso" loading="lazy">
+          <img src="RealMadrid_Titular2526_3.jpg" alt="Real Madrid Titular 25/26 detalle" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e1',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e1',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Real Madrid · Titular 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Real Madrid Titular 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- LIVERPOOL TITULAR 25/26 CHAMPIONS - M, M -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e2">
+        <div class="carousel-track">
+          <img src="Liverpool_Titular2526Champions_1.jpg" alt="Liverpool Champions" loading="lazy">
+          <img src="Liverpool_Titular2526Champions_12.jpg" alt="Liverpool Champions dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e2',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e2',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Liverpool · Titular 25/26 Champions</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Liverpool Titular 25/26 Champions', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- LIVERPOOL TITULAR 25/26 - M, L -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e3">
+        <div class="carousel-track">
+          <img src="Liverpool_Titular2526_1.jpg" alt="Liverpool Titular" loading="lazy">
+          <img src="Liverpool_Titular2526_2.jpg" alt="Liverpool Titular dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e3',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e3',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Liverpool · Titular 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Liverpool Titular 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- LIVERPOOL ADIDAS - L, M -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e42">
+        <div class="carousel-track">
+          <img src="Liverpool_RetroAdidas_1.jpg" alt="Liverpool Adidas" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e42',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e42',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Liverpool · Adidas</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Liverpool Adidas', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- LIVERPOOL VISITANTE 25/26 - L -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e4">
+        <div class="carousel-track">
+          <img src="Liverpool_Visitante2526_1.jpg" alt="Liverpool Visitante" loading="lazy">
+          <img src="Liverpool_Visitante2526_2.jpg" alt="Liverpool Visitante dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e4',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e4',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Liverpool · Visitante 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Liverpool Visitante 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- MANCHESTER CITY TERCERA 2024 - M -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e5">
+        <div class="carousel-track">
+          <img src="ManchesterCity_Tercera2024_1.jpg" alt="Man City Tercera 2024" loading="lazy">
+          <img src="ManchesterCity_Tercera2024_2.jpg" alt="Man City Tercera 2024 detalle" loading="lazy">
+          <img src="ManchesterCity_Tercera2024_3.jpg" alt="Man City Tercera 2024 manga" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e5',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e5',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Manchester City · Tercera 2024</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Manchester City Tercera 2024', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- MANCHESTER CITY TITULAR 2025 - L -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e6">
+        <div class="carousel-track">
+          <img src="ManchesterCity_Titular2025_1.jpg" alt="Man City Titular 2025" loading="lazy">
+          <img src="ManchesterCity_Titular2025_2.jpg" alt="Man City Titular 2025 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e6',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e6',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Manchester City · Titular 2025</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Manchester City Titular 2025', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- MANCHESTER CITY TERCERA 2025 - XL, M -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e7">
+        <div class="carousel-track">
+          <img src="ManchesterCity_Tercera2025_1.jpg" alt="Man City Tercera 2025" loading="lazy">
+          <img src="ManchesterCity_Tercera2025_2.jpg" alt="Man City Tercera 2025 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e7',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e7',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Manchester City · Tercera 2025</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">XL</button>
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Manchester City Tercera 2025', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- PSG TITULAR 2025 - M -->
+    <div class="product-card" data-cat="francia">
+      <div class="carousel" id="e8">
+        <div class="carousel-track">
+          <img src="PSG_Titular2025_1.jpg" alt="PSG Titular 2025" loading="lazy">
+          <img src="PSG_Titular2025_2.jpg" alt="PSG Titular 2025 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e8',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e8',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Ligue 1 · Francia</div>
+        <div class="product-name">PSG · Titular 2025</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('PSG Titular 2025', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- ARSENAL TERCERA 2025 - M -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e9">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Arsenal_Tercera2025_1.jpg" alt="Arsenal Tercera 2025" loading="lazy">
+          <img src="Arsenal_Tercera2025_2.jpg" alt="Arsenal Tercera 2025 dorso" loading="lazy">
+          <img src="Arsenal_Tercera2025_3.jpg" alt="Arsenal Tercera 2025 detalle" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e9',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e9',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Arsenal · Tercera 2025</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn agotado" onclick="selectSize(this)">M</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Arsenal Tercera 2025', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- NOTTINGHAM FOREST TITULAR 25/26 - L -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e10">
+        <div class="carousel-track">
+          <img src="NottinghamForest_Titular2526_1.jpg" alt="Nottingham Forest Titular 25/26" loading="lazy">
+          <img src="NottinghamForest_Titular2526_2.jpg" alt="Nottingham Forest Titular 25/26 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e10',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e10',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League · Inglaterra</div>
+        <div class="product-name">Nottingham Forest · Titular 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Nottingham Forest Titular 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- PALMEIRAS TITULAR 24/25 - S (SALE) -->
+    <div class="product-card" data-cat="sudamerica">
+      <div class="carousel" id="e11">
+        <span class="badge badge-sale">Sale</span>
+        <div class="carousel-track">
+          <img src="Palmeiras_Titular2425_1.jpg" alt="Palmeiras Titular 24/25" loading="lazy">
+          <img src="Palmeiras_Titular2425_2.jpg" alt="Palmeiras Titular 24/25 detalle" loading="lazy">
+          <img src="Palmeiras_Titular2425_3.jpg" alt="Palmeiras Titular 24/25 vista" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e11',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e11',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Brasil</div>
+        <div class="product-name">Palmeiras · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$1.575</span><span class="price-old">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">S</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Palmeiras Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- CORINTHIANS TITULAR 25 MEMPHIS 10 - L (SALE) -->
+    <div class="product-card" data-cat="sudamerica">
+      <div class="carousel" id="e12">
+        <span class="badge badge-sale">Sale</span>
+        <div class="carousel-track">
+          <img src="Corinthians_Titular25_1.jpg" alt="Corinthians Titular 25" loading="lazy">
+          <img src="Corinthians_Titular25_2.jpg" alt="Corinthians Titular 25 detalle" loading="lazy">
+          <img src="Corinthians_Titular25_3.jpg" alt="Corinthians Titular 25 vista" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e12',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e12',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Brasil</div>
+        <div class="product-name">Corinthians · Titular 25 Memphis 10</div>
+        <div class="product-price"><span class="price-current">$1.575</span><span class="price-old">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Corinthians Titular 25 Memphis 10', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- SANTOS TITULAR 2011 - L -->
+    <div class="product-card" data-cat="sudamerica">
+      <div class="carousel" id="e13">
+        <div class="carousel-track">
+          <img src="Santos_Titular2011_1.jpg" alt="Santos Titular 2011" loading="lazy">
+          <img src="Santos_Titular2011_2.jpg" alt="Santos Titular 2011 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e13',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e13',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Brasil</div>
+        <div class="product-name">Santos · Titular 2011</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Santos Titular 2011', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- FLAMENGO VISITANTE 26/27 - S, M, L, XL, XXL -->
+    <div class="product-card" data-cat="sudamerica">
+      <div class="carousel" id="e43">
+        <div class="carousel-track">
+          <img src="Flamengo_Visitante2627_1.jpg" alt="Flamengo Visitante 26/27" loading="lazy">
+          <img src="Flamengo_Visitante2627_2.jpg" alt="Flamengo Visitante 26/27 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e43',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e43',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Brasil</div>
+        <div class="product-name">Flamengo · Visitante 26/27</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">S</button>
+          <button class="size-btn" onclick="selectSize(this)">M</button>
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+          <button class="size-btn" onclick="selectSize(this)">XL</button>
+          <button class="size-btn" onclick="selectSize(this)">XXL</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Flamengo Visitante 26/27', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- INTER MIAMI TITULAR 25/26 - L -->
+    <div class="product-card" data-cat="mls">
+      <div class="carousel" id="e14">
+        <div class="carousel-track">
+          <img src="InterMiami_Titular2526_1.jpg" alt="Inter Miami Titular 25/26" loading="lazy">
+          <img src="InterMiami_Titular2526_2.jpg" alt="Inter Miami Titular 25/26 dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e14',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e14',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div><div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">MLS · Estados Unidos</div>
+        <div class="product-name">Inter Miami · Titular 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Inter Miami Titular 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+  
+<!-- NACIONAL URUGUAY TITULAR -->
+    <div class="product-card" data-cat="uruguay">
+      <div class="carousel" id="e15">
+        <div class="carousel-track">
+          <img src="Nacional_Titular_1.jpg" alt="Nacional Uruguay Titular" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e15',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e15',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Liga Uruguay</div>
+        <div class="product-name">Nacional Uruguay · Titular</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button><button class="size-btn" onclick="selectSize(this)">XXL</button><button class="size-btn" onclick="selectSize(this)">XXXL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Nacional Uruguay Titular', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- AC MILAN TITULAR 24/25 -->
+    <div class="product-card" data-cat="italia">
+      <div class="carousel" id="e16">
+        <div class="carousel-track">
+          <img src="ACMilan_Titular2425_1.jpg" alt="AC Milan Titular 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e16',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e16',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Italia</div>
+        <div class="product-name">AC Milan · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('AC Milan Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- BARCELONA TITULAR 24/25 -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e17">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Barcelona_Titular2425_1.jpg" alt="Barcelona Titular 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e17',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e17',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Barcelona · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Barcelona Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- BARCELONA TRAVIS SCOTT -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e18">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Barcelona_TravisScott_1.jpg" alt="Barcelona Travis Scott" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e18',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e18',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Barcelona · Travis Scott</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Barcelona Travis Scott', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- BARCELONA KOBE NEGRO -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e19">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Barcelona_KobeNegro_1.jpg" alt="Barcelona Kobe Negro" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e19',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e19',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Barcelona · Kobe Negro</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Barcelona Kobe Negro', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- INTER MILAN TITULAR 24/25 -->
+    <div class="product-card" data-cat="italia">
+      <div class="carousel" id="e20">
+        <div class="carousel-track">
+          <img src="InterMilan_Titular2425_1.jpg" alt="Inter Milan Titular 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e20',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e20',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Italia</div>
+        <div class="product-name">Inter Milan · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Inter Milan Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- INTER MILAN VISITANTE 24/25 -->
+    <div class="product-card" data-cat="italia">
+      <div class="carousel" id="e21">
+        <div class="carousel-track">
+          <img src="InterMilan_Visitante2425_1.jpg" alt="Inter Milan Visitante 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e21',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e21',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Italia</div>
+        <div class="product-name">Inter Milan · Visitante 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button><button class="size-btn" onclick="selectSize(this)">XXL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Inter Milan Visitante 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- BOCA JUNIORS 120 ANIVERSARIO -->
+    <div class="product-card" data-cat="argentina">
+      <div class="carousel" id="e22">
+        <div class="carousel-track">
+          <img src="BocaJuniors_120Aniversario_1.jpg" alt="Boca Juniors 120 Aniversario" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e22',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e22',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Liga Argentina</div>
+        <div class="product-name">Boca Juniors · 120 Aniversario</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button><button class="size-btn" onclick="selectSize(this)">XXL</button><button class="size-btn" onclick="selectSize(this)">XXXL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Boca Juniors 120 Aniversario', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- ARSENAL TITULAR MANGA LARGA -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e23">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Arsenal_TitularMangaLarga_1.jpg" alt="Arsenal Titular Manga Larga" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e23',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e23',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League</div>
+        <div class="product-name">Arsenal · Titular Manga Larga</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Arsenal Titular Manga Larga', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- AL NASSR VISITANTE MANGA LARGA -->
+    <div class="product-card" data-cat="arabia">
+      <div class="carousel" id="e24">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="AlNassr_Visitante_1.jpg" alt="Al Nassr Visitante Manga Larga" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e24',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e24',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Pro League Arabia</div>
+        <div class="product-name">Al Nassr · Visitante Manga Larga</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Al Nassr Visitante Manga Larga', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- AL NASSR TITULAR -->
+    <div class="product-card" data-cat="arabia">
+      <div class="carousel" id="e25">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="AlNassr_Titular_1.jpg" alt="Al Nassr Titular" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e25',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e25',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Pro League Arabia</div>
+        <div class="product-name">Al Nassr · Titular</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Al Nassr Titular', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- PEÑAROL TITULAR -->
+    <div class="product-card" data-cat="uruguay">
+      <div class="carousel" id="e26">
+        <div class="carousel-track">
+          <img src="Penarol_Titular_1.jpg" alt="Peñarol Titular" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e26',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e26',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Liga Uruguay</div>
+        <div class="product-name">Peñarol · Titular</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button><button class="size-btn" onclick="selectSize(this)">XXL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Peñarol Titular', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- REAL BETIS × NARUTO -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e27">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="RealBetis_Naruto_1.jpg" alt="Real Betis × Naruto" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e27',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e27',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Real Betis · × Naruto</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Real Betis × Naruto', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- PALMEIRAS TITULAR 25/26 -->
+    <div class="product-card" data-cat="sudamerica">
+      <div class="carousel" id="e28">
+        <div class="carousel-track">
+          <img src="Palmeiras_Titular2526_1.jpg" alt="" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e28',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e28',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Brasil</div>
+        <div class="product-name">Palmeiras · Titular 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">M</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Palmeiras Titular 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- ATLÉTICO MADRID VISITANTE -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e29">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="AtleticoMadrid_Visitante_1.jpg" alt="Atlético Madrid Visitante" loading="lazy">
+          <img src="AtleticoMadrid_Visitante_2.jpg" alt="Atlético Madrid Visitante" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e29',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e29',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Atlético Madrid · Visitante</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Atlético Madrid Visitante', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- PSG VISITANTE 25/26 -->
+    <div class="product-card" data-cat="francia">
+      <div class="carousel" id="e30">
+        <div class="carousel-track">
+          <img src="PSG_Visitante2526_1.jpg" alt="PSG Visitante 25/26" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e30',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e30',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Ligue 1 · Francia</div>
+        <div class="product-name">PSG · Visitante 25/26</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XXL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('PSG Visitante 25/26', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- PSG TITULAR 23/24 -->
+    <div class="product-card" data-cat="francia">
+      <div class="carousel" id="e31">
+        <div class="carousel-track">
+          <img src="PSG_Titular2324_1.jpg" alt="PSG Titular 23/24" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e31',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e31',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Ligue 1 · Francia</div>
+        <div class="product-name">PSG · Titular 23/24</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('PSG Titular 23/24', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- CHELSEA TITULAR 24/25 -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e32">
+        <div class="carousel-track">
+          <img src="Chelsea_Titular2425_1.jpg" alt="Chelsea Titular 24/25" loading="lazy">
+          <img src="Chelsea_Titular2425_2.jpg" alt="Chelsea Titular 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e32',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e32',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League</div>
+        <div class="product-name">Chelsea · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">M</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Chelsea Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- CHELSEA VISITANTE 24/25 -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e33">
+        <div class="carousel-track">
+          <img src="Chelsea_Visitante2425_1.jpg" alt="Chelsea Visitante 24/25" loading="lazy">
+          <img src="Chelsea_Visitante2425_2.jpg" alt="Chelsea Visitante 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e33',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e33',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League</div>
+        <div class="product-name">Chelsea · Visitante 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Chelsea Visitante 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- JUVENTUS TITULAR 24/25 -->
+    <div class="product-card" data-cat="italia">
+      <div class="carousel" id="e34">
+        <div class="carousel-track">
+          <img src="Juventus_Titular2425_1.jpg" alt="Juventus Titular 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e34',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e34',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Italia</div>
+        <div class="product-name">Juventus · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Juventus Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- TOTTENHAM VISITANTE -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e35">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Tottenham_Visitante_1.jpg" alt="Tottenham Visitante" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e35',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e35',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League</div>
+        <div class="product-name">Tottenham · Visitante</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Tottenham Visitante', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- TOTTENHAM TITULAR -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e36">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Tottenham_Titular_1.jpg" alt="Tottenham Titular" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e36',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e36',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League</div>
+        <div class="product-name">Tottenham · Titular</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Tottenham Titular', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- LIVERPOOL TITULAR 24/25 · MAC ALLISTER -->
+    <div class="product-card" data-cat="england">
+      <div class="carousel" id="e37">
+        <div class="carousel-track">
+          <img src="Liverpool_Titular2425MacAllister_1.jpg" alt="Liverpool Titular 24/25 · Mac Allister" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e37',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e37',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Premier League</div>
+        <div class="product-name">Liverpool · Titular 24/25 · Mac Allister</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">S</button><button class="size-btn" onclick="selectSize(this)">M</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Liverpool Titular 24/25 · Mac Allister', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- NAPOLI TITULAR 24/25 -->
+    <div class="product-card" data-cat="italia">
+      <div class="carousel" id="e38">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="Napoli_Titular2425_1.jpg" alt="Napoli Titular 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e38',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e38',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A · Italia</div>
+        <div class="product-name">Napoli · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Napoli Titular 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- BARCELONA VISITANTE 24/25 -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e39">
+        <div class="carousel-track">
+          <img src="Barcelona_Visitante2425_1.jpg" alt="Barcelona Visitante 24/25" loading="lazy">
+          <img src="Barcelona_Visitante2425_2.jpg" alt="Barcelona Visitante 24/25" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e39',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e39',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Barcelona · Visitante 24/25</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn" onclick="selectSize(this)">M</button><button class="size-btn" onclick="selectSize(this)">L</button><button class="size-btn" onclick="selectSize(this)">XL</button><button class="size-btn" onclick="selectSize(this)">XXL</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Barcelona Visitante 24/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- RACING SANTANDER TITULAR -->
+    <div class="product-card" data-cat="españa">
+      <div class="carousel" id="e40">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="RacingSantander_Titular_1.jpg" alt="Racing Santander Titular" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e40',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e40',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">La Liga · España</div>
+        <div class="product-name">Racing Santander · Titular</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Racing Santander Titular', this)">Agregar al carrito</button></div>
+    </div>
+
+    <!-- INTER MIAMI VISITANTE -->
+    <div class="product-card" data-cat="mls">
+      <div class="carousel" id="e41">
+        <span class="badge badge-agotado">Agotado</span>
+        <div class="carousel-track">
+          <img src="InterMiami_Visitante_1.jpg" alt="Inter Miami Visitante" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('e41',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('e41',1)">›</button>
+        <div class="carousel-dots"><div class="carousel-dot active"></div></div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">MLS</div>
+        <div class="product-name">Inter Miami · Visitante</div>
+        <div class="product-price"><span class="price-current">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes"><button class="size-btn agotado" onclick="selectSize(this)">Consultar</button></div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" disabled onclick="addToCart('Inter Miami Visitante', this)">Agregar al carrito</button></div>
+    </div>
+
+  </div></section>
+
+<footer>
+  <div class="footer-logo">RGOL.UY</div>
+  <p>© 2026 RGol · Todos los derechos reservados</p>
+  <p style="color: var(--gold-dark); font-size:11px;">Diseño web · rgol.uy</p>
+</footer>
+<script>
+  const carouselState = {};
+  function moveCarousel(id, dir) {
+    const el = document.getElementById(id);
+    const track = el.querySelector('.carousel-track');
+    const slides = track.children.length;
+    if (!carouselState[id]) carouselState[id] = 0;
+    carouselState[id] = (carouselState[id] + dir + slides) % slides;
+    track.style.transform = `translateX(-${carouselState[id] * 100}%)`;
+    el.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === carouselState[id]));
+  }
+  function selectSize(btn) {
+    if (btn.classList.contains('agotado')) return;
+    btn.closest('.sizes').querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    const buyBtn = btn.closest('.product-card').querySelector('.btn-buy');
+    buyBtn.disabled = false;
+    buyBtn.style.opacity = '1';
+    buyBtn.style.cursor = 'pointer';
+  }
+  function pedirPorWhatsapp(producto, btn) {
+    const card = btn.closest('.product-card');
+    const selected = card.querySelector('.size-btn.selected');
+    if (!selected) return;
+    const msg = encodeURIComponent(`Hola! Quiero comprar la camiseta: *${producto}* - Talle: *${selected.textContent.trim()}*`);
+    window.open('https://wa.me/598098037399?text=' + msg, '_blank');
+  }
+  document.querySelectorAll('.btn-buy').forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+  });
+  function filterProducts(btn, cat) {
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+
+    // LIGHTBOX
+  let lightboxImgs = [];
+  let lightboxIndex = 0;
+
+  function openLightbox(img) {
+    // Recolectar TODAS las imágenes visibles del catálogo
+    lightboxImgs = Array.from(document.querySelectorAll('.product-card:not(.hidden) .carousel-track img'));
+    lightboxIndex = lightboxImgs.indexOf(img);
+    if (lightboxIndex === -1) lightboxIndex = 0;
+    showLightboxImg();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showLightboxImg() {
+    const img = lightboxImgs[lightboxIndex];
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-img').alt = img.alt;
+    // Mostrar/ocultar flechas
+    const show = lightboxImgs.length > 1;
+    document.querySelectorAll('.lightbox-nav').forEach(b => b.style.display = show ? 'flex' : 'none');
+  }
+
+  function lightboxNav(dir) {
+    if (!lightboxImgs.length) return;
+    lightboxIndex = (lightboxIndex + dir + lightboxImgs.length) % lightboxImgs.length;
+    showLightboxImg();
+  }
+
+  function closeLightbox(e) {
+    if (e.target.id === 'lightbox') {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') { lb.classList.remove('open'); document.body.style.overflow = ''; }
+    if (e.key === 'ArrowRight') lightboxNav(1);
+    if (e.key === 'ArrowLeft') lightboxNav(-1);
+  });
+
+  document.querySelectorAll('.carousel-track img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img));
+  });
+</script>
+<script src="cart.js"></script>
+</body>
+</html>

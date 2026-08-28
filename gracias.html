@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>RGOL.UY | Tu pedido</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0C96B;
+    --bg-dark: #0D0D0D;
+    --bg-card: #181818;
+    --text: #F0EDE6;
+    --text-muted: #888;
+    --border: rgba(201,168,76,0.25);
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    max-width: 420px;
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px 28px;
+    text-align: center;
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--gold); letter-spacing: 0.06em; margin-bottom: 24px; display: block; text-decoration: none; }
+  .icon { font-size: 48px; margin-bottom: 16px; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 0.03em; margin-bottom: 10px; }
+  p { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 24px; }
+  .btn-whatsapp {
+    display: inline-block;
+    width: 100%;
+    padding: 13px;
+    background: #25D366;
+    color: #0D0D0D;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 10px;
+  }
+  .btn-secondary {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: var(--gold-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <a class="logo" href="index.html">RGOL.UY</a>
+  <div id="status-icon" class="icon">⏳</div>
+  <h1 id="status-title">Procesando...</h1>
+  <p id="status-text">Un segundo, estamos confirmando tu pago.</p>
+  <a id="whatsapp-btn" class="btn-whatsapp" href="#" style="display:none;">Confirmar por WhatsApp</a>
+  <a class="btn-secondary" href="catalogo.html">Volver al catálogo</a>
+</div>
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0R4DW6T3NB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0R4DW6T3NB');
+</script>
+
+<script>
+  const WHATSAPP_NUMBER = '598098037399';
+  const params = new URLSearchParams(window.location.search);
+  const estado = params.get('estado');
+
+  const iconEl = document.getElementById('status-icon');
+  const titleEl = document.getElementById('status-title');
+  const textEl = document.getElementById('status-text');
+  const waBtn = document.getElementById('whatsapp-btn');
+
+  function formatPrice(n) {
+    return '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
+  function buildWhatsAppMessage() {
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem('rgol_cart')) || [];
+    } catch (e) {}
+    if (cart.length === 0) {
+      return 'Hola! Ya pagué mi pedido con Mercado Pago ✅';
+    }
+    let msg = 'Hola! Ya pagué este pedido con Mercado Pago ✅\n\n';
+    let total = 0;
+    cart.forEach(item => {
+      const subtotal = item.precio * item.qty;
+      total += subtotal;
+      msg += `• ${item.producto} - Talle: ${item.talle} - Cant: ${item.qty} - ${formatPrice(subtotal)}\n`;
+    });
+    msg += `\n*Total pagado: ${formatPrice(total)}*`;
+    return msg;
+  }
+
+  if (estado === 'success') {
+    iconEl.textContent = '✅';
+    titleEl.textContent = '¡Pago acreditado!';
+    textEl.textContent = 'Gracias por tu compra. Confirmá tu pedido por WhatsApp para coordinar el envío.';
+    const msg = buildWhatsAppMessage();
+    const waUrl = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+    waBtn.href = waUrl;
+    waBtn.style.display = 'block';
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'purchase_mp', { event_category: 'Mercado Pago', event_label: 'Pago acreditado' });
+    }
+
+    // Abrimos WhatsApp automático (un solo toque le queda al cliente: "Enviar")
+    setTimeout(() => { window.open(waUrl, '_blank'); }, 900);
+
+    // Limpiamos el carrito ya que la compra se concretó
+    localStorage.removeItem('rgol_cart');
+  } else if (estado === 'pending') {
+    iconEl.textContent = '⏳';
+    titleEl.textContent = 'Pago pendiente';
+    textEl.textContent = 'Tu pago está siendo procesado. Te vamos a avisar apenas se confirme — también podés escribirnos para consultar.';
+    const msg = 'Hola! Hice un pedido y el pago quedó pendiente de confirmación, ¿me ayudás?';
+    waBtn.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+    waBtn.textContent = 'Consultar por WhatsApp';
+    waBtn.style.display = 'block';
+  } else if (estado === 'failure') {
+    iconEl.textContent = '❌';
+    titleEl.textContent = 'El pago no se pudo procesar';
+    textEl.textContent = 'Algo falló con el pago. Podés intentar de nuevo desde el catálogo, o escribirnos si preferís coordinar por WhatsApp.';
+    const msg = 'Hola! Intenté pagar con Mercado Pago pero no se pudo procesar, ¿me ayudás a hacer el pedido?';
+    waBtn.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+    waBtn.textContent = 'Coordinar por WhatsApp';
+    waBtn.style.display = 'block';
+  } else {
+    iconEl.textContent = '🛒';
+    titleEl.textContent = 'Sin datos de pago';
+    textEl.textContent = 'Volvé al catálogo para hacer tu pedido.';
+  }
+</script>
+
+</body>
+</html>

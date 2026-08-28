@@ -1,0 +1,305 @@
+/* ===== RGOL.UY — Estilos del carrito ===== */
+#rgol-cart-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gold, #C9A24B);
+  color: #0D0D0D;
+  border: none;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+#rgol-cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #E53E3E;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+#rgol-cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 1000;
+}
+#rgol-cart-overlay.open { opacity: 1; pointer-events: auto; }
+
+#rgol-cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 380px;
+  background: #14141a;
+  color: #f2f2f2;
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+#rgol-cart-drawer.open { transform: translateX(0); }
+
+.rgol-cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid #2a2a33;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.05em;
+}
+.rgol-cart-header-actions { display: flex; align-items: center; gap: 14px; }
+.rgol-cart-header button {
+  background: none;
+  border: none;
+  color: #f2f2f2;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+#rgol-cart-minimize { font-size: 16px; padding-bottom: 4px; }
+
+#rgol-cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 20px;
+}
+
+#rgol-cart-empty {
+  text-align: center;
+  color: #8a8a94;
+  font-size: 14px;
+  margin-top: 30px;
+}
+
+.rgol-cart-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid #24242c;
+}
+.rgol-cart-row-img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #1e1e26;
+}
+.rgol-cart-row-info { flex: 1; min-width: 0; }
+.rgol-cart-row-name { font-size: 13px; font-weight: 600; line-height: 1.3; }
+.rgol-cart-row-talle { font-size: 11px; color: #8a8a94; margin-top: 3px; }
+
+.rgol-cart-row-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.rgol-cart-row-qty button {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid #3a3a44;
+  background: transparent;
+  color: #f2f2f2;
+  cursor: pointer;
+}
+
+.rgol-cart-row-remove {
+  background: none;
+  border: none;
+  color: #8a8a94;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.rgol-cart-footer {
+  padding: 16px 20px 20px;
+  border-top: 1px solid #2a2a33;
+}
+.rgol-cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--gold, #C9A24B);
+  margin-bottom: 12px;
+}
+#rgol-cart-pay {
+  width: 100%;
+  padding: 13px;
+  background: #009EE3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+#rgol-cart-pay:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.rgol-cart-method-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8a8a94;
+  margin-bottom: 8px;
+}
+.rgol-cart-method-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.rgol-method-btn {
+  flex: 1;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #3a3a44;
+  border-radius: 6px;
+  color: #8a8a94;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.rgol-method-btn.active {
+  border-color: var(--gold, #C9A24B);
+  color: var(--gold, #C9A24B);
+  background: rgba(201,162,75,0.1);
+}
+.rgol-discount-tag {
+  display: inline-block;
+  background: #25D366;
+  color: #0D0D0D;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+#rgol-transfer-info {
+  display: none;
+  background: #1e1e26;
+  border: 1px solid #2a2a33;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+}
+#rgol-transfer-info.show { display: block; }
+.rgol-transfer-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 4px 0;
+}
+.rgol-transfer-row span { color: #8a8a94; }
+.rgol-transfer-row strong { color: #f2f2f2; }
+.rgol-transfer-note {
+  font-size: 11px;
+  color: #8a8a94;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+#rgol-cart-checkout {
+  width: 100%;
+  padding: 13px;
+  background: #25D366;
+  color: #0D0D0D;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+#rgol-cart-checkout:disabled { opacity: 0.4; cursor: not-allowed; }
+#rgol-cart-clear {
+  width: 100%;
+  padding: 8px;
+  background: none;
+  border: none;
+  color: #8a8a94;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#rgol-toast {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: #1e1e26;
+  color: #f2f2f2;
+  border: 1px solid var(--gold, #C9A24B);
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  z-index: 1002;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+  max-width: 260px;
+}
+#rgol-toast.show { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 480px) {
+  #rgol-cart-drawer { max-width: 100%; }
+}
+
+#rgol-cart-minibar {
+  position: fixed;
+  bottom: 88px;
+  right: 20px;
+  background: #14141a;
+  border: 1px solid var(--gold, #C9A24B);
+  color: #f2f2f2;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 998;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  max-width: 260px;
+}
+#rgol-cart-minibar.show { display: flex; }
+#rgol-cart-minibar-expand {
+  color: var(--gold, #C9A24B);
+  font-weight: 700;
+  white-space: nowrap;
+}

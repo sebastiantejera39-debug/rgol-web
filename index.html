@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0R4DW6T3NB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0R4DW6T3NB');
+</script>
+
+<title>RGOL.UY | Camisetas de Fútbol Originales y Retro en Uruguay</title>
+<meta name="description" content="Comprá camisetas de fútbol de clubes, selecciones y retro en Uruguay. Calidad premium, envíos a todo el país y atención por WhatsApp. Vestite de historia.">
+<meta name="keywords" content="camisetas de futbol uruguay, camisetas retro, camisetas selecciones, rgol uy, comprar camiseta futbol montevideo">
+<meta name="robots" content="index, follow">
+<meta name="google-site-verification" content="KVxiG10BBBZvw7ypRPDij_J3ezV3hdHa_2Y6ow-dAeg" />
+<link rel="canonical" href="https://rgoluy.netlify.app/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RGOL.UY">
+<meta property="og:title" content="RGOL.UY | Camisetas de Fútbol Originales y Retro en Uruguay">
+<meta property="og:description" content="Comprá camisetas de fútbol de clubes, selecciones y retro en Uruguay. Calidad premium, envíos a todo el país y atención por WhatsApp.">
+<meta property="og:image" content="https://rgoluy.netlify.app/logo-hero.png">
+<meta property="og:url" content="https://rgoluy.netlify.app/">
+<meta property="og:locale" content="es_UY">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RGOL.UY | Camisetas de Fútbol Originales y Retro en Uruguay">
+<meta name="twitter:description" content="Comprá camisetas de fútbol de clubes, selecciones y retro en Uruguay. Envíos a todo el país.">
+<meta name="twitter:image" content="https://rgoluy.netlify.app/logo-hero.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cart.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportingGoodsStore",
+  "name": "RGOL.UY",
+  "description": "Tienda de camisetas de fútbol de clubes, selecciones y retro en Uruguay.",
+  "url": "https://rgoluy.netlify.app/",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Montevideo",
+    "addressCountry": "UY"
+  },
+  "areaServed": "UY"
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0C96B;
+    --gold-dark: #8B6B1F;
+    --bg-dark: #0D0D0D;
+    --bg-card: #181818;
+    --bg-section: #141414;
+    --text: #F0EDE6;
+    --text-muted: #888;
+    --border: rgba(201,168,76,0.25);
+  }
+
+  body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text); min-height: 100vh; }
+
+  .topbar { background: #080808; border-bottom: 1px solid var(--border); padding: 8px 0; text-align: center; font-size: 13px; color: var(--gold-light); letter-spacing: 0.08em; }
+
+  header { background: var(--bg-dark); border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; position: sticky; top: 0; z-index: 100; }
+
+  .logo { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+  .logo-main { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--gold); letter-spacing: 0.06em; }
+  .logo-sub { font-size: 10px; letter-spacing: 0.2em; color: var(--text-muted); text-transform: uppercase; }
+
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .header-actions a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+  .header-actions a:hover { color: var(--gold); }
+
+  .btn-icon { color: var(--gold); display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 8px; transition: background 0.2s, border-color 0.2s; }
+  .btn-icon:hover { background: rgba(201,168,76,0.15); border-color: var(--gold); }
+
+  nav { background: #111; border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; }
+  nav a { color: var(--text-muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.05em; padding: 14px 20px; border-bottom: 2px solid transparent; transition: all 0.2s; text-transform: uppercase; white-space: nowrap; }
+  nav a:hover, nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .hero { background: linear-gradient(135deg, #0D0D0D 0%, #1a1200 50%, #0D0D0D 100%); border-bottom: 1px solid var(--border); padding: 80px 40px; display: block; position: relative; overflow: hidden; }
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(500px, 90vw);
+    height: min(500px, 90vw);
+    background: url('logo-hero.png') center/contain no-repeat;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero > div { position: relative; z-index: 1; }
+
+  .hero-label { font-size: 11px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .hero-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--gold); }
+
+  .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 6vw, 80px); line-height: 0.95; color: var(--text); margin-bottom: 8px; }
+  .hero h1 span { color: var(--gold); }
+
+  .hero-sub { font-size: 16px; color: var(--text-muted); margin: 20px 0 36px; line-height: 1.6; max-width: 440px; }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary { background: var(--gold); color: #0D0D0D; border: none; border-radius: 6px; padding: 14px 28px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: background 0.2s, transform 0.15s; display: inline-block; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 6px; padding: 14px 28px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: background 0.2s; display: inline-block; }
+  .btn-outline:hover { background: rgba(201,168,76,0.1); }
+
+  .hero-stats { display: flex; gap: 32px; margin-top: 44px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .hero-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--gold); line-height: 1; }
+  .hero-stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+
+  .trust-bar { background: #111; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 18px 40px; display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .trust-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-muted); }
+  .trust-item svg { color: var(--gold); }
+
+  .section { padding: 64px 40px; }
+  .section-alt { background: var(--bg-section); }
+  .section-header { margin-bottom: 40px; }
+  .section-eyebrow { font-size: 11px; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 42px; line-height: 1; color: var(--text); }
+  .section-title span { color: var(--gold); }
+
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+
+  .product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+  .product-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+
+  /* CARRUSEL */
+  .carousel { position: relative; aspect-ratio: 1/1; background: #111; overflow: hidden; }
+  .carousel-track { display: flex; height: 100%; transition: transform 0.35s ease; }
+  .carousel-track img { min-width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+  .carousel-track .placeholder { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 80px; flex-shrink: 0; background: #1a1a1a; }
+  .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.55); border: 1px solid var(--border); color: var(--gold); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; z-index: 2; transition: background 0.2s; }
+  .carousel-btn:hover { background: rgba(201,168,76,0.25); }
+  .carousel-btn.prev { left: 8px; }
+  .carousel-btn.next { right: 8px; }
+  .carousel-dots { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 5px; }
+  .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.2s; }
+  .carousel-dot.active { background: var(--gold); }
+  .badge { position: absolute; top: 10px; left: 10px; background: var(--gold); color: #0D0D0D; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 4px; padding: 3px 8px; z-index: 3; }
+  .badge-new { background: #25D366; color: #fff; }
+
+  .product-info { padding: 14px 16px 8px; }
+  .product-league { font-size: 10px; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .product-name { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+  .product-price { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .price-current { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); }
+  .price-old { font-size: 12px; color: var(--text-muted); text-decoration: line-through; }
+
+  /* TALLES */
+  .sizes-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .sizes { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .size-btn { background: #222; border: 1px solid var(--border); color: var(--text); border-radius: 5px; padding: 4px 9px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+  .size-btn:hover:not(.agotado) { border-color: var(--gold); color: var(--gold); }
+  .size-btn.selected { background: var(--gold); border-color: var(--gold); color: #0D0D0D; }
+  .size-btn.agotado { color: var(--text-muted); border-color: #333; text-decoration: line-through; cursor: not-allowed; opacity: 0.5; }
+
+  .product-footer { padding: 0 16px 14px; }
+  .btn-buy { width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold); border-radius: 6px; padding: 9px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s; }
+  .btn-buy:hover { background: var(--gold); color: #0D0D0D; }
+
+  .contact-section { background: linear-gradient(135deg, #0D0D0D 0%, #1a1200 100%); border-top: 1px solid var(--border); padding: 64px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .contact-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; line-height: 1; margin-bottom: 16px; }
+  .contact-title span { color: var(--gold); }
+  .contact-desc { color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+  .contact-cards { display: flex; flex-direction: column; gap: 12px; }
+  .contact-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+  .contact-icon { width: 44px; height: 44px; background: rgba(201,168,76,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .contact-card-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .contact-card-value { font-size: 15px; font-weight: 600; color: var(--text); margin-top: 2px; }
+
+  footer { background: #080808; border-top: 1px solid var(--border); padding: 24px 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer p { font-size: 12px; color: var(--text-muted); }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); letter-spacing: 0.08em; }
+
+  @media (max-width: 768px) {
+    header { padding: 14px 20px; flex-wrap: wrap; }
+    nav { padding: 0 20px; overflow-x: auto; }
+    nav a { white-space: nowrap; }
+    .hero { padding: 48px 20px; }
+    .section { padding: 48px 20px; }
+    .contact-section { grid-template-columns: 1fr; padding: 48px 20px; }
+    .trust-bar { gap: 12px 20px; padding: 14px 20px; display: grid; grid-template-columns: 1fr 1fr; }
+    footer { padding: 20px; flex-direction: column; text-align: center; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .product-name { font-size: 12px; }
+    .price-current { font-size: 18px; }
+    .btn-buy { font-size: 11px; padding: 8px; }
+    .size-btn { padding: 3px 7px; font-size: 10px; }
+  }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: min(90vw, 800px); max-height: 90vh; object-fit: contain; width: auto; height: auto; border-radius: 8px; pointer-events: none; }
+  .lightbox-close { position: absolute; top: 20px; right: 28px; color: #fff; font-size: 36px; cursor: pointer; line-height: 1; opacity: 0.8; transition: opacity 0.2s; }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 2; }
+  .lightbox-nav:hover { background: rgba(201,168,76,0.4); border-color: var(--gold); color: var(--gold); }
+  .lightbox-nav.prev { left: 20px; }
+  .lightbox-nav.next { right: 20px; }
+  .carousel-track img { cursor: zoom-in; }
+</style>
+</head>
+<body>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <span class="lightbox-close" onclick="document.getElementById('lightbox').classList.remove('open')">✕</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div class="topbar">⚡ ENVÍOS A TODO EL PAÍS · CALIDAD PREMIUM</div>
+
+<header>
+  <a class="logo" href="index.html">
+    <span class="logo-main">RGOL.UY</span>
+    <span class="logo-sub">Vestite de historia</span>
+  </a>
+  <div class="header-actions">
+    <a href="https://www.instagram.com/rgol.uy" target="_blank" class="btn-icon" title="Instagram">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://wa.me/598098037399" target="_blank" class="btn-icon" title="WhatsApp">
+      <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.121 1.535 5.857L.057 23.522a.75.75 0 0 0 .921.921l5.666-1.478A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.715 9.715 0 0 1-4.976-1.367l-.356-.213-3.696.964.984-3.595-.233-.37A9.712 9.712 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+    </a>
+  </div>
+</header>
+
+<nav>
+  <a href="index.html" class="active">Inicio</a>
+  <a href="catalogo.html">Catálogo</a>
+  <a href="equipos.html">Equipos de fútbol</a>
+  <a href="selecciones.html">Selecciones</a>
+  <a href="retro.html">Camisetas retro</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <div class="hero-label">Tu tienda de camisetas</div>
+    <h1>LAS MEJORES<br><span>CAMISETAS</span><br>DEL MUNDO</h1>
+    <p class="hero-sub">Encontrá tu camiseta favorita al mejor precio. Alta calidad, despacho inmediato y atención personalizada.</p>
+    <div class="hero-ctas">
+      <a href="catalogo.html" class="btn-primary">Ver catálogo</a>
+      <a href="https://wa.me/598098037399?text=Hola%2C%20quiero%20hacer%20un%20pedido" class="btn-outline" target="_blank">Hacer pedido</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">100+</div>
+        <div class="hero-stat-label">Modelos disponibles</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">24H</div>
+        <div class="hero-stat-label">Despacho express</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">1000+</div>
+        <div class="hero-stat-label">Comunidad en Instagram</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    Envío a todo el país
+  </div>
+  <div class="trust-item">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    Cuotas sin interés con Mercado Pago
+  </div>
+  <div class="trust-item">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Compra segura
+  </div>
+  <div class="trust-item">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    Calidad premium garantizada
+  </div>
+</div>
+
+<!-- OFERTAS -->
+<section class="section" id="ofertas">
+  <div class="section-header">
+    <div class="section-eyebrow">Destacadas</div>
+    <div class="section-title">OFERTAS DE LA <span>SEMANA</span></div>
+  </div>
+  <div class="product-grid">
+
+    <div class="product-card">
+      <div class="carousel" id="c1">
+        <span class="badge">OFERTA</span>
+        <div class="carousel-track">
+          <img src="Colombia_EdicionEspecial_1.jpg" alt="Colombia Edición especial - frente" loading="lazy">
+          <img src="Colombia_EdicionEspecial_2.jpg" alt="Colombia Edición especial - detalle" loading="lazy">
+          <img src="Colombia_EdicionEspecial_3.jpg" alt="Colombia Edición especial - dorso" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('c1',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('c1',1)">›</button>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Selección nacional</div>
+        <div class="product-name">Colombia · Edición especial</div>
+        <div class="product-price"><span class="price-current">$1.575</span><span class="price-old">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">L</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Colombia Edición especial 2025', this)">Agregar al carrito</button></div>
+    </div>
+
+    <div class="product-card">
+      <div class="carousel" id="c2">
+        <span class="badge">OFERTA</span>
+        <div class="carousel-track">
+          <img src="Colombia_Titular24_1.jpg" alt="Colombia Titular 2024 - frente" loading="lazy">
+          <img src="Colombia_Titular24_2.jpg" alt="Colombia Titular 2024 - dorso" loading="lazy">
+          <img src="Colombia_Titular24_3.jpg" alt="Colombia Titular 2024 - detalle" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('c2',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('c2',1)">›</button>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Selección nacional</div>
+        <div class="product-name">Colombia · Titular 2024</div>
+        <div class="product-price"><span class="price-current">$1.575</span><span class="price-old">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">XL</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Colombia Titular 2024', this)">Agregar al carrito</button></div>
+    </div>
+
+    <div class="product-card">
+      <div class="carousel" id="c3">
+        <span class="badge">OFERTA</span>
+        <div class="carousel-track">
+          <img src="Palmeiras_Titular2425_1.jpg" alt="Palmeiras Titular - frente" loading="lazy">
+          <img src="Palmeiras_Titular2425_2.jpg" alt="Palmeiras Titular - detalle" loading="lazy">
+          <img src="Palmeiras_Titular2425_3.jpg" alt="Palmeiras Titular - vista" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('c3',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('c3',1)">›</button>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A Brasil</div>
+        <div class="product-name">Palmeiras · Titular 24/25</div>
+        <div class="product-price"><span class="price-current">$1.575</span><span class="price-old">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">S</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Palmeiras Titular 2024/25', this)">Agregar al carrito</button></div>
+    </div>
+
+    <div class="product-card">
+      <div class="carousel" id="c4">
+        <span class="badge">OFERTA</span>
+        <div class="carousel-track">
+          <img src="Corinthians_Titular25_1.jpg" alt="Corinthians Titular - frente" loading="lazy">
+          <img src="Corinthians_Titular25_2.jpg" alt="Corinthians Titular - detalle" loading="lazy">
+          <img src="Corinthians_Titular25_3.jpg" alt="Corinthians Titular - vista" loading="lazy">
+        </div>
+        <button class="carousel-btn prev" onclick="moveCarousel('c4',-1)">‹</button>
+        <button class="carousel-btn next" onclick="moveCarousel('c4',1)">›</button>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-league">Serie A Brasil</div>
+        <div class="product-name">Corinthians · Titular 25 Memphis 10</div>
+        <div class="product-price"><span class="price-current">$1.575</span><span class="price-old">$2.100</span></div>
+        <div class="sizes-label">Talle</div>
+        <div class="sizes">
+          <button class="size-btn" onclick="selectSize(this)">XL</button>
+        </div>
+      </div>
+      <div class="product-footer"><button class="btn-buy" onclick="addToCart('Corinthians Titular 2024/25', this)">Agregar al carrito</button></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contact-section">
+  <div>
+    <div class="section-eyebrow">¿Tenés alguna consulta?</div>
+    <h2 class="contact-title">HABLÁ CON<br>UN <span>ASESOR</span></h2>
+    <p class="contact-desc">Estamos para ayudarte a encontrar la camiseta que buscás. Contactanos por WhatsApp y te respondemos al instante.</p>
+    <a href="https://wa.me/598098037399?text=Hola%2C%20necesito%20ayuda!" class="btn-primary" target="_blank">Escribir por WhatsApp</a>
+  </div>
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="contact-icon">📍</div>
+      <div>
+        <div class="contact-card-label">Nos encontramos en</div>
+        <div class="contact-card-value">Centro, Montevideo, Uruguay</div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">🕐</div>
+      <div>
+        <div class="contact-card-label">Horario de atención</div>
+        <div class="contact-card-value">Lunes a Sábado 9–19 hs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">RGOL.UY</div>
+  <p>© 2026 RGol · Todos los derechos reservados</p>
+  <p style="color: var(--gold-dark); font-size:11px;">Diseño web · rgol.uy</p>
+</footer>
+
+<script>
+  // CAROUSEL
+  const carouselState = {};
+  function moveCarousel(id, dir) {
+    const el = document.getElementById(id);
+    const track = el.querySelector('.carousel-track');
+    const slides = track.children.length;
+    if (!carouselState[id]) carouselState[id] = 0;
+    carouselState[id] = (carouselState[id] + dir + slides) % slides;
+    track.style.transform = `translateX(-${carouselState[id] * 100}%)`;
+    el.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === carouselState[id]));
+  }
+
+  // SIZE SELECTION
+  function selectSize(btn) {
+    if (btn.classList.contains('agotado')) return;
+    btn.closest('.sizes').querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    // Habilitar botón comprar
+    const buyBtn = btn.closest('.product-card').querySelector('.btn-buy');
+    buyBtn.disabled = false;
+    buyBtn.style.opacity = '1';
+    buyBtn.style.cursor = 'pointer';
+  }
+
+  // WHATSAPP con talle obligatorio
+  function pedirPorWhatsapp(producto, btn) {
+    const card = btn.closest('.product-card');
+    const selected = card.querySelector('.size-btn.selected');
+    if (!selected) return; // no debería pasar pero por las dudas
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', { event_category: 'WhatsApp', event_label: producto, value: 1 });
+    }
+    const msg = encodeURIComponent(`Hola! Quiero comprar la camiseta: *${producto}* - Talle: *${selected.textContent.trim()}*`);
+    window.open('https://wa.me/598098037399?text=' + msg, '_blank');
+  }
+
+  // Deshabilitar todos los botones comprar al inicio
+  document.querySelectorAll('.btn-buy').forEach(btn => {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+  });
+
+  const ofertasLink = document.querySelector('a[href="#ofertas"]');
+  if (ofertasLink) {
+    ofertasLink.addEventListener('click', e => {
+      e.preventDefault();
+      document.getElementById('ofertas').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // LIGHTBOX
+  let lightboxImgs = [];
+  let lightboxIndex = 0;
+
+  function openLightbox(img) {
+    const track = img.closest('.carousel-track');
+    lightboxImgs = Array.from(track.querySelectorAll('img'));
+    lightboxIndex = lightboxImgs.indexOf(img);
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    updateLightboxNav();
+  }
+
+  function lightboxNav(dir) {
+    lightboxIndex = (lightboxIndex + dir + lightboxImgs.length) % lightboxImgs.length;
+    document.getElementById('lightbox-img').src = lightboxImgs[lightboxIndex].src;
+    updateLightboxNav();
+  }
+
+  function updateLightboxNav() {
+    const show = lightboxImgs.length > 1;
+    document.querySelectorAll('.lightbox-nav').forEach(b => b.style.display = show ? 'flex' : 'none');
+  }
+
+  function closeLightbox(e) {
+    if (e.target.id === 'lightbox') {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+    if (e.key === 'ArrowRight' && document.getElementById('lightbox').classList.contains('open')) lightboxNav(1);
+    if (e.key === 'ArrowLeft' && document.getElementById('lightbox').classList.contains('open')) lightboxNav(-1);
+  });
+  document.querySelectorAll('.carousel-track img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img));
+  });
+
+</script>
+<script src="cart.js"></script>
+</body>
+</html>
