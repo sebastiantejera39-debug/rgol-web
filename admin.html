@@ -91,6 +91,12 @@
   .img-add-tile { width: 84px; height: 84px; border-radius: 8px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--gold); cursor: pointer; background: #111; }
   .img-add-tile:hover { border-color: var(--gold); }
 
+  /* ---- Talles de compra (chips con cantidad) ---- */
+  .compra-talles-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .compra-talle-chip { display: flex; align-items: center; gap: 8px; background: #111; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; }
+  .compra-talle-chip span { font-size: 13px; font-weight: 700; color: var(--text); min-width: 22px; }
+  .compra-talle-chip input { width: 64px; margin: 0; padding: 4px 6px; }
+
   /* ---- Dashboard ---- */
   .dash-total { font-size: 24px; font-weight: 700; margin-bottom: 18px; }
   .filtro-row { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; }
@@ -231,21 +237,14 @@
       <div class="card">
         <h2>Registrar compra (ingreso de stock)</h2>
         <form id="form-compra">
-          <div class="grid2">
-            <div>
-              <label for="compra-producto">Producto</label>
-              <select id="compra-producto" required></select>
-            </div>
-            <div>
-              <label for="compra-talle">Talle</label>
-              <select id="compra-talle" required></select>
-            </div>
+          <label for="compra-producto">Producto</label>
+          <select id="compra-producto" required></select>
+          <label>Talles y cantidad comprada</label>
+          <div class="compra-talles-grid" id="compra-talles-list">
+            <span class="muted" style="font-size:13px;">Elegí un producto primero</span>
           </div>
-          <div class="grid3">
-            <div>
-              <label for="compra-cantidad">Cantidad</label>
-              <input type="number" id="compra-cantidad" min="1" value="1" required>
-            </div>
+          <p class="muted" style="font-size:12px;margin:-10px 0 16px;">Poné la cantidad en cada talle que compraste (dejá 0 en los que no) — se registra todo junto, con el mismo costo/fecha/proveedor.</p>
+          <div class="grid2">
             <div>
               <label for="compra-costo">Costo unitario</label>
               <input type="number" id="compra-costo" min="0" step="1">
@@ -273,7 +272,7 @@
           <label for="compra-nota">Nota (opcional)</label>
           <textarea id="compra-nota" rows="2"></textarea>
           <div class="error-msg" id="compra-error"></div>
-          <div class="ok-msg" id="compra-ok" style="display:none">Compra registrada — el stock ya se actualizó.</div>
+          <div class="ok-msg" id="compra-ok" style="display:none"></div>
           <button type="submit" class="btn" id="compra-btn" style="max-width:220px">Registrar compra</button>
         </form>
       </div>
@@ -494,7 +493,22 @@
       talles.map(t => `<option value="${t.id}">${escHtml(t.talle)}</option>`).join('');
   }
   document.getElementById('venta-producto').addEventListener('change', () => fillTalleSelect('venta'));
-  document.getElementById('compra-producto').addEventListener('change', () => fillTalleSelect('compra'));
+
+  function renderCompraTalles() {
+    const prodId = document.getElementById('compra-producto').value;
+    const wrap = document.getElementById('compra-talles-list');
+    const prod = productosCache.find(p => p.id === prodId);
+    if (!prod || !prod.talles || !prod.talles.length) {
+      wrap.innerHTML = '<span class="muted" style="font-size:13px;">' + (prodId ? 'Este producto no tiene talles cargados.' : 'Elegí un producto primero') + '</span>';
+      return;
+    }
+    wrap.innerHTML = prod.talles.map(t => `
+      <div class="compra-talle-chip">
+        <span>${escHtml(t.talle)}</span>
+        <input type="number" min="0" value="0" class="compra-talle-qty" data-talle-id="${t.id}">
+      </div>`).join('');
+  }
+  document.getElementById('compra-producto').addEventListener('change', renderCompraTalles);
 
   // ============ VENTA ============
   document.getElementById('venta-fecha').value = todayStr();
@@ -535,26 +549,35 @@
     const okEl = document.getElementById('compra-ok');
     const btn = document.getElementById('compra-btn');
     errEl.textContent = ''; okEl.style.display = 'none';
-    const talle_id = document.getElementById('compra-talle').value;
-    if (!talle_id) { errEl.textContent = 'Elegí un producto y un talle.'; return; }
-    const row = {
-      talle_id,
-      cantidad: Number(document.getElementById('compra-cantidad').value) || 1,
-      costo_unitario: document.getElementById('compra-costo').value ? Number(document.getElementById('compra-costo').value) : null,
-      proveedor: document.getElementById('compra-proveedor').value || null,
-      forma_pago: document.getElementById('compra-forma-pago').value,
-      fecha: document.getElementById('compra-fecha').value,
-      nota: document.getElementById('compra-nota').value || null,
-    };
+
+    const prodId = document.getElementById('compra-producto').value;
+    if (!prodId) { errEl.textContent = 'Elegí un producto.'; return; }
+
+    const qtyInputs = Array.from(document.querySelectorAll('#compra-talles-list .compra-talle-qty'));
+    const itemsToInsert = qtyInputs
+      .map(inp => ({ talle_id: inp.dataset.talleId, cantidad: Number(inp.value) || 0 }))
+      .filter(it => it.cantidad > 0);
+    if (!itemsToInsert.length) { errEl.textContent = 'Ingresá una cantidad mayor a 0 en al menos un talle.'; return; }
+
+    const costo_unitario = document.getElementById('compra-costo').value ? Number(document.getElementById('compra-costo').value) : null;
+    const proveedor = document.getElementById('compra-proveedor').value || null;
+    const forma_pago = document.getElementById('compra-forma-pago').value;
+    const fecha = document.getElementById('compra-fecha').value;
+    const nota = document.getElementById('compra-nota').value || null;
+
+    const payload = itemsToInsert.map(it => ({
+      talle_id: it.talle_id, cantidad: it.cantidad, costo_unitario, proveedor, forma_pago, fecha, nota,
+    }));
+
     btn.disabled = true;
-    const { error } = await sb.from('compras').insert(row);
+    const { error } = await sb.from('compras').insert(payload);
     btn.disabled = false;
     if (error) { errEl.textContent = 'Error al guardar: ' + error.message; return; }
+    okEl.textContent = itemsToInsert.length > 1 ? `Compra registrada (${itemsToInsert.length} talles).` : 'Compra registrada — el stock ya se actualizó.';
     okEl.style.display = 'block';
     document.getElementById('form-compra').reset();
     document.getElementById('compra-fecha').value = todayStr();
-    document.getElementById('compra-cantidad').value = 1;
-    document.getElementById('compra-talle').innerHTML = '<option value="">Elegir...</option>';
+    document.getElementById('compra-talles-list').innerHTML = '<span class="muted" style="font-size:13px;">Elegí un producto primero</span>';
   });
 
   // ============ STOCK ============
