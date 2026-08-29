@@ -718,9 +718,19 @@
     const tbody = document.getElementById('stock-tbody');
     const emptyEl = document.getElementById('stock-empty');
     tbody.innerHTML = '<tr><td colspan="7" class="muted">Cargando...</td></tr>';
-    const { data, error } = await sb.from('vista_stock').select('*').order('nombre');
-    if (error) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Error al cargar: ' + error.message; return; }
-    window.__stockData = data || [];
+    const [stockRes, comprasRes, ventasRes] = await Promise.all([
+      sb.from('vista_stock').select('*').order('nombre'),
+      sb.from('compras').select('talle_id,cantidad'),
+      sb.from('ventas').select('talle_id,cantidad'),
+    ]);
+    if (stockRes.error) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Error al cargar: ' + stockRes.error.message; return; }
+    const compradoMap = {};
+    (comprasRes.data || []).forEach(c => { compradoMap[c.talle_id] = (compradoMap[c.talle_id] || 0) + (c.cantidad || 0); });
+    const vendidoMap = {};
+    (ventasRes.data || []).forEach(v => { vendidoMap[v.talle_id] = (vendidoMap[v.talle_id] || 0) + (v.cantidad || 0); });
+    window.__stockData = stockRes.data || [];
+    window.__compradoMap = compradoMap;
+    window.__vendidoMap = vendidoMap;
     drawStockRows(window.__stockData);
     document.getElementById('stock-search').oninput = (e) => {
       const q = e.target.value.trim().toLowerCase();
@@ -735,23 +745,29 @@
     if (!rows.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Sin resultados.'; return; }
     emptyEl.style.display = 'none';
     tbody.innerHTML = rows.map(r => {
-      return `<tr data-talle-id="${r.talle_id}">
+      const comprado = window.__compradoMap[r.talle_id] || 0;
+      const vendido = window.__vendidoMap[r.talle_id] || 0;
+      return `<tr data-talle-id="${r.talle_id}" data-comprado="${comprado}" data-vendido="${vendido}">
         <td>${escHtml(r.nombre)}</td>
         <td>${escHtml(r.talle)}</td>
-        <td><input type="number" class="stock-inicial-edit" value="${r.stock_inicial}" style="width:70px;margin:0;padding:4px 6px;"></td>
-        <td class="muted">—</td>
-        <td class="muted">—</td>
-        <td class="${r.stock_actual <= 0 ? 'stock-bajo' : 'stock-ok'}">${r.stock_actual}</td>
-        <td><button type="button" class="btn-secondary btn-small guardar-inicial">Guardar</button></td>
+        <td class="muted">${r.stock_inicial}</td>
+        <td>${comprado}</td>
+        <td>${vendido}</td>
+        <td><input type="number" class="stock-actual-edit" value="${r.stock_actual}" style="width:70px;margin:0;padding:4px 6px;"></td>
+        <td><button type="button" class="btn-secondary btn-small guardar-actual">Guardar</button></td>
       </tr>`;
     }).join('');
-    tbody.querySelectorAll('.guardar-inicial').forEach(btn => {
+    tbody.querySelectorAll('.guardar-actual').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const tr = e.target.closest('tr');
         const talleId = tr.dataset.talleId;
-        const nuevoValor = Number(tr.querySelector('.stock-inicial-edit').value) || 0;
+        const comprado = Number(tr.dataset.comprado) || 0;
+        const vendido = Number(tr.dataset.vendido) || 0;
+        const nuevoStockActual = Number(tr.querySelector('.stock-actual-edit').value) || 0;
+        // stock_actual = stock_inicial + comprado - vendido, así que despejamos stock_inicial
+        const nuevoStockInicial = nuevoStockActual - comprado + vendido;
         btn.disabled = true; btn.textContent = 'Guardando...';
-        const { error } = await sb.from('talles').update({ stock_inicial: nuevoValor }).eq('id', talleId);
+        const { error } = await sb.from('talles').update({ stock_inicial: nuevoStockInicial }).eq('id', talleId);
         btn.disabled = false; btn.textContent = 'Guardar';
         if (error) { alert('Error: ' + error.message); return; }
         await renderStock();
