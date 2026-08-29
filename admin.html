@@ -136,6 +136,7 @@
     <button data-panel="panel-dashboard" class="active">Dashboard</button>
     <button data-panel="panel-vender">Vender</button>
     <button data-panel="panel-comprar">Comprar / Stock</button>
+    <button data-panel="panel-gastos">Gastos</button>
     <button data-panel="panel-stock">Stock actual</button>
     <button data-panel="panel-productos">Productos</button>
   </nav>
@@ -167,7 +168,7 @@
         <div class="dash-total" id="dash-saldo-total"></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Mes</th><th>Ingresos (ventas)</th><th>Egresos (compras)</th><th>Saldo del mes</th><th>Saldo acumulado</th></tr></thead>
+            <thead><tr><th>Mes</th><th>Ingresos (ventas)</th><th>Egresos (compras + gastos)</th><th>Saldo del mes</th><th>Saldo acumulado</th></tr></thead>
             <tbody id="dash-saldo-tbody"></tbody>
           </table>
           <p id="dash-saldo-empty" style="display:none">Sin movimientos registrados.</p>
@@ -275,6 +276,69 @@
           <div class="ok-msg" id="compra-ok" style="display:none"></div>
           <button type="submit" class="btn" id="compra-btn" style="max-width:220px">Registrar compra</button>
         </form>
+      </div>
+    </section>
+
+    <!-- ---- GASTOS ---- -->
+    <section class="panel" id="panel-gastos">
+      <div class="card">
+        <h2>Registrar gasto</h2>
+        <form id="form-gasto">
+          <div class="grid2">
+            <div>
+              <label for="gasto-concepto">Concepto</label>
+              <input type="text" id="gasto-concepto" placeholder="Ej: Bolsas, envíos, publicidad Instagram..." required>
+            </div>
+            <div>
+              <label for="gasto-monto">Monto</label>
+              <input type="number" id="gasto-monto" min="0" step="0.01" required>
+            </div>
+          </div>
+          <div class="grid3">
+            <div>
+              <label for="gasto-categoria">Categoría (opcional)</label>
+              <select id="gasto-categoria">
+                <option value="">Sin categoría</option>
+                <option>Packaging / envíos</option>
+                <option>Publicidad</option>
+                <option>Comisiones</option>
+                <option>Herramientas / suscripciones</option>
+                <option>Ajuste</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="gasto-forma-pago">Forma de pago</label>
+              <select id="gasto-forma-pago">
+                <option>Transferencia</option>
+                <option>Efectivo</option>
+                <option>Mercado Pago</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div>
+              <label for="gasto-fecha">Fecha</label>
+              <input type="date" id="gasto-fecha" required>
+            </div>
+          </div>
+          <label for="gasto-nota">Nota (opcional)</label>
+          <textarea id="gasto-nota" rows="2"></textarea>
+          <div class="error-msg" id="gasto-error"></div>
+          <div class="ok-msg" id="gasto-ok" style="display:none">Gasto registrado.</div>
+          <button type="submit" class="btn" id="gasto-btn" style="max-width:220px">Registrar gasto</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Gastos registrados</h2>
+        <input type="text" class="search-bar" id="gastos-search" placeholder="Buscar por concepto...">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Fecha</th><th>Concepto</th><th>Categoría</th><th>Monto</th><th>Pago</th><th></th></tr></thead>
+            <tbody id="gastos-tbody"></tbody>
+          </table>
+          <p id="gastos-empty" style="display:none">Sin gastos cargados.</p>
+        </div>
       </div>
     </section>
 
@@ -461,6 +525,7 @@
       if (btn.dataset.panel === 'panel-stock') renderStock();
       if (btn.dataset.panel === 'panel-productos') renderProductosTable();
       if (btn.dataset.panel === 'panel-dashboard') renderDashboard();
+      if (btn.dataset.panel === 'panel-gastos') renderGastos();
     });
   });
 
@@ -579,6 +644,74 @@
     document.getElementById('compra-fecha').value = todayStr();
     document.getElementById('compra-talles-list').innerHTML = '<span class="muted" style="font-size:13px;">Elegí un producto primero</span>';
   });
+
+  // ============ GASTOS ============
+  document.getElementById('gasto-fecha').value = todayStr();
+  document.getElementById('form-gasto').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errEl = document.getElementById('gasto-error');
+    const okEl = document.getElementById('gasto-ok');
+    const btn = document.getElementById('gasto-btn');
+    errEl.textContent = ''; okEl.style.display = 'none';
+    const monto = Number(document.getElementById('gasto-monto').value);
+    if (!monto || monto <= 0) { errEl.textContent = 'Ingresá un monto mayor a 0.'; return; }
+    const row = {
+      concepto: document.getElementById('gasto-concepto').value.trim(),
+      monto,
+      categoria: document.getElementById('gasto-categoria').value || null,
+      forma_pago: document.getElementById('gasto-forma-pago').value,
+      fecha: document.getElementById('gasto-fecha').value,
+      nota: document.getElementById('gasto-nota').value || null,
+    };
+    if (!row.concepto) { errEl.textContent = 'Ingresá un concepto.'; return; }
+    btn.disabled = true;
+    const { error } = await sb.from('gastos').insert(row);
+    btn.disabled = false;
+    if (error) { errEl.textContent = 'Error al guardar: ' + error.message; return; }
+    okEl.style.display = 'block';
+    document.getElementById('form-gasto').reset();
+    document.getElementById('gasto-fecha').value = todayStr();
+    renderGastos();
+  });
+
+  async function renderGastos() {
+    const tbody = document.getElementById('gastos-tbody');
+    const emptyEl = document.getElementById('gastos-empty');
+    tbody.innerHTML = '<tr><td colspan="6" class="muted">Cargando...</td></tr>';
+    const { data, error } = await sb.from('gastos').select('*').order('fecha', { ascending: false });
+    if (error) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Error al cargar: ' + error.message; return; }
+    window.__gastosData = data || [];
+    drawGastosRows(window.__gastosData);
+    document.getElementById('gastos-search').oninput = (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      drawGastosRows(window.__gastosData.filter(g => g.concepto.toLowerCase().includes(q)));
+    };
+  }
+
+  function drawGastosRows(rows) {
+    const tbody = document.getElementById('gastos-tbody');
+    const emptyEl = document.getElementById('gastos-empty');
+    if (!rows.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Sin gastos cargados.'; return; }
+    emptyEl.style.display = 'none';
+    tbody.innerHTML = rows.map(g => `<tr data-id="${g.id}">
+      <td>${escHtml(g.fecha)}</td>
+      <td>${escHtml(g.concepto)}</td>
+      <td>${g.categoria ? `<span class="badge-pill">${escHtml(g.categoria)}</span>` : '<span class="muted">—</span>'}</td>
+      <td>${fmtMoney(g.monto)}</td>
+      <td>${escHtml(g.forma_pago || '—')}</td>
+      <td><button type="button" class="btn-secondary btn-small borrar-gasto">Borrar</button></td>
+    </tr>`).join('');
+    tbody.querySelectorAll('.borrar-gasto').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const tr = e.target.closest('tr');
+        if (!confirm('¿Borrar este gasto?')) return;
+        btn.disabled = true; btn.textContent = 'Borrando...';
+        const { error } = await sb.from('gastos').delete().eq('id', tr.dataset.id);
+        if (error) { alert('Error: ' + error.message); btn.disabled = false; btn.textContent = 'Borrar'; return; }
+        await renderGastos();
+      });
+    });
+  }
 
   // ============ STOCK ============
   async function renderStock() {
@@ -939,13 +1072,14 @@
     const totalEl = document.getElementById('dash-saldo-total');
     tbody.innerHTML = '<tr><td colspan="5" class="muted">Cargando...</td></tr>';
     totalEl.textContent = '';
-    const [ventasRes, comprasRes] = await Promise.all([
+    const [ventasRes, comprasRes, gastosRes] = await Promise.all([
       sb.from('ventas').select('fecha,valor_abonado'),
       sb.from('compras').select('fecha,cantidad,costo_unitario'),
+      sb.from('gastos').select('fecha,monto'),
     ]);
-    if (ventasRes.error || comprasRes.error) {
+    if (ventasRes.error || comprasRes.error || gastosRes.error) {
       tbody.innerHTML = ''; emptyEl.style.display = 'block';
-      emptyEl.textContent = 'Error al cargar: ' + ((ventasRes.error && ventasRes.error.message) || (comprasRes.error && comprasRes.error.message));
+      emptyEl.textContent = 'Error al cargar: ' + ((ventasRes.error && ventasRes.error.message) || (comprasRes.error && comprasRes.error.message) || (gastosRes.error && gastosRes.error.message));
       return;
     }
     const meses = new Map();
@@ -961,6 +1095,13 @@
       const key = c.fecha.slice(0, 7);
       const m = meses.get(key) || { ingreso: 0, egreso: 0 };
       m.egreso += (c.cantidad || 0) * (c.costo_unitario || 0);
+      meses.set(key, m);
+    });
+    (gastosRes.data || []).forEach(g => {
+      if (!g.fecha) return;
+      const key = g.fecha.slice(0, 7);
+      const m = meses.get(key) || { ingreso: 0, egreso: 0 };
+      m.egreso += g.monto || 0;
       meses.set(key, m);
     });
     if (!meses.size) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; emptyEl.textContent = 'Sin movimientos registrados.'; return; }
