@@ -91,6 +91,19 @@
   .img-add-tile { width: 84px; height: 84px; border-radius: 8px; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--gold); cursor: pointer; background: #111; }
   .img-add-tile:hover { border-color: var(--gold); }
 
+  /* ---- Filtros de Productos ---- */
+  .productos-toolbar { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 16px; }
+  .productos-toolbar .search-bar { flex: 1; margin-bottom: 0; }
+  .filtros-wrap { position: relative; flex-shrink: 0; }
+  #productos-filtros-btn { white-space: nowrap; }
+  #productos-filtros-btn.filtros-activos { border-color: var(--gold); color: var(--gold); }
+  .filtros-panel { display: none; position: absolute; top: calc(100% + 6px); right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; width: 220px; z-index: 20; box-shadow: 0 8px 24px rgba(0,0,0,0.5); max-height: 340px; overflow-y: auto; }
+  .filtros-panel.open { display: block; }
+  .filtros-group { margin-bottom: 14px; }
+  .filtros-group-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 8px; }
+  .filtros-group label { display: flex; align-items: center; gap: 8px; font-size: 13px; text-transform: none; margin-bottom: 6px; color: var(--text); cursor: pointer; }
+  .filtros-group input[type="checkbox"] { width: auto; margin: 0; }
+
   /* ---- Talles de compra (chips con cantidad) ---- */
   .compra-talles-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
   .compra-talle-chip { display: flex; align-items: center; gap: 8px; background: #111; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; }
@@ -417,7 +430,30 @@
 
       <div class="card">
         <h2>Productos existentes</h2>
-        <input type="text" class="search-bar" id="productos-search" placeholder="Buscar producto...">
+        <div class="productos-toolbar">
+          <input type="text" class="search-bar" id="productos-search" placeholder="Buscar producto...">
+          <div class="filtros-wrap">
+            <button type="button" class="btn-secondary btn-small" id="productos-filtros-btn">Filtros <span id="productos-filtros-count"></span></button>
+            <div class="filtros-panel" id="productos-filtros-panel">
+              <div class="filtros-group">
+                <div class="filtros-group-title">Categoría</div>
+                <label><input type="checkbox" class="filtro-categoria" value="equipos"> Equipos</label>
+                <label><input type="checkbox" class="filtro-categoria" value="selecciones"> Selecciones</label>
+                <label><input type="checkbox" class="filtro-categoria" value="retro"> Retro</label>
+              </div>
+              <div class="filtros-group">
+                <div class="filtros-group-title">Activo</div>
+                <label><input type="checkbox" class="filtro-activo" value="si"> Sí</label>
+                <label><input type="checkbox" class="filtro-activo" value="no"> No</label>
+              </div>
+              <div class="filtros-group">
+                <div class="filtros-group-title">Precio</div>
+                <div id="productos-filtro-precio-list"></div>
+              </div>
+              <button type="button" class="btn-secondary btn-small" id="productos-filtros-limpiar" style="width:100%;">Limpiar filtros</button>
+            </div>
+          </div>
+        </div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Producto</th><th>Categorías</th><th>Precio</th><th>Activo</th><th></th></tr></thead>
@@ -1000,52 +1036,108 @@
     }
   });
 
-  // ============ PRODUCTOS: listar ============
-  function renderProductosTable() {
+  // ============ PRODUCTOS: listar + filtros ============
+  function drawProductosRows(list) {
     const tbody = document.getElementById('productos-tbody');
     const emptyEl = document.getElementById('productos-empty');
-    const draw = (list) => {
-      if (!list.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; return; }
-      emptyEl.style.display = 'none';
-      tbody.innerHTML = list.map(p => `
-        <tr data-id="${p.id}">
-          <td>${escHtml(p.nombre)}</td>
-          <td>${(p.categorias || []).map(c => `<span class="badge-pill">${escHtml(c)}</span>`).join(' ')}</td>
-          <td>${fmtMoney(p.precio)}</td>
-          <td>${p.activo ? '<span class="stock-ok">Sí</span>' : '<span class="stock-bajo">No</span>'}</td>
-          <td style="white-space:nowrap;">
-            <button type="button" class="btn-secondary btn-small editar-producto">Editar</button>
-            <button type="button" class="btn-secondary btn-small toggle-activo">${p.activo ? 'Desactivar' : 'Activar'}</button>
-          </td>
-        </tr>`).join('');
-      tbody.querySelectorAll('.editar-producto').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const tr = e.target.closest('tr');
-          const p = productosCache.find(x => x.id === tr.dataset.id);
-          if (p) loadProductIntoForm(p);
-        });
+    if (!list.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; return; }
+    emptyEl.style.display = 'none';
+    tbody.innerHTML = list.map(p => `
+      <tr data-id="${p.id}">
+        <td>${escHtml(p.nombre)}</td>
+        <td>${(p.categorias || []).map(c => `<span class="badge-pill">${escHtml(c)}</span>`).join(' ')}</td>
+        <td>${fmtMoney(p.precio)}</td>
+        <td>${p.activo ? '<span class="stock-ok">Sí</span>' : '<span class="stock-bajo">No</span>'}</td>
+        <td style="white-space:nowrap;">
+          <button type="button" class="btn-secondary btn-small editar-producto">Editar</button>
+          <button type="button" class="btn-secondary btn-small toggle-activo">${p.activo ? 'Desactivar' : 'Activar'}</button>
+        </td>
+      </tr>`).join('');
+    tbody.querySelectorAll('.editar-producto').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tr = e.target.closest('tr');
+        const p = productosCache.find(x => x.id === tr.dataset.id);
+        if (p) loadProductIntoForm(p);
       });
-      tbody.querySelectorAll('.toggle-activo').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          const tr = e.target.closest('tr');
-          const p = productosCache.find(x => x.id === tr.dataset.id);
-          if (!p) return;
-          btn.disabled = true;
-          const { error } = await sb.from('productos').update({ activo: !p.activo }).eq('id', p.id);
-          btn.disabled = false;
-          if (error) { alert('Error: ' + error.message); return; }
-          await loadProductos();
-          fillProductoSelects();
-          renderProductosTable();
-        });
+    });
+    tbody.querySelectorAll('.toggle-activo').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const tr = e.target.closest('tr');
+        const p = productosCache.find(x => x.id === tr.dataset.id);
+        if (!p) return;
+        btn.disabled = true;
+        const { error } = await sb.from('productos').update({ activo: !p.activo }).eq('id', p.id);
+        btn.disabled = false;
+        if (error) { alert('Error: ' + error.message); return; }
+        await loadProductos();
+        fillProductoSelects();
+        renderProductosTable();
       });
-    };
-    draw(productosCache);
-    document.getElementById('productos-search').oninput = (e) => {
-      const q = e.target.value.trim().toLowerCase();
-      draw(productosCache.filter(p => p.nombre.toLowerCase().includes(q)));
-    };
+    });
   }
+
+  function renderFiltroPrecioOptions() {
+    const wrap = document.getElementById('productos-filtro-precio-list');
+    const prevChecked = new Set(
+      Array.from(wrap.querySelectorAll('.filtro-precio:checked')).map(el => el.value)
+    );
+    const precios = Array.from(new Set(productosCache.map(p => Number(p.precio) || 0))).sort((a, b) => a - b);
+    wrap.innerHTML = precios.map(pr => `
+      <label><input type="checkbox" class="filtro-precio" value="${pr}" ${prevChecked.has(String(pr)) ? 'checked' : ''}> ${fmtMoney(pr)}</label>
+    `).join('');
+    wrap.querySelectorAll('.filtro-precio').forEach(cb => {
+      cb.addEventListener('change', applyProductosFiltros);
+    });
+  }
+
+  function applyProductosFiltros() {
+    const q = document.getElementById('productos-search').value.trim().toLowerCase();
+    const categoriasSel = Array.from(document.querySelectorAll('.filtro-categoria:checked')).map(el => el.value);
+    const activoSel = Array.from(document.querySelectorAll('.filtro-activo:checked')).map(el => el.value);
+    const precioSel = Array.from(document.querySelectorAll('.filtro-precio:checked')).map(el => el.value);
+
+    let list = productosCache;
+    if (q) list = list.filter(p => p.nombre.toLowerCase().includes(q));
+    if (categoriasSel.length) {
+      list = list.filter(p => (p.categorias || []).some(c => categoriasSel.includes(c)));
+    }
+    if (activoSel.length) {
+      list = list.filter(p => activoSel.includes(p.activo ? 'si' : 'no'));
+    }
+    if (precioSel.length) {
+      list = list.filter(p => precioSel.includes(String(Number(p.precio) || 0)));
+    }
+    drawProductosRows(list);
+
+    const total = categoriasSel.length + activoSel.length + precioSel.length;
+    const btn = document.getElementById('productos-filtros-btn');
+    const countEl = document.getElementById('productos-filtros-count');
+    countEl.textContent = total ? `(${total})` : '';
+    btn.classList.toggle('filtros-activos', total > 0);
+  }
+
+  function renderProductosTable() {
+    renderFiltroPrecioOptions();
+    applyProductosFiltros();
+  }
+
+  // Listeners estáticos de filtros (se configuran una sola vez, no en cada render)
+  document.getElementById('productos-search').addEventListener('input', applyProductosFiltros);
+  document.querySelectorAll('.filtro-categoria, .filtro-activo').forEach(cb => {
+    cb.addEventListener('change', applyProductosFiltros);
+  });
+  document.getElementById('productos-filtros-limpiar').addEventListener('click', () => {
+    document.querySelectorAll('.filtro-categoria, .filtro-activo, .filtro-precio').forEach(cb => { cb.checked = false; });
+    applyProductosFiltros();
+  });
+  document.getElementById('productos-filtros-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('productos-filtros-panel').classList.toggle('open');
+  });
+  document.getElementById('productos-filtros-panel').addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('click', () => {
+    document.getElementById('productos-filtros-panel').classList.remove('open');
+  });
 
   // ============ DASHBOARD ============
   document.getElementById('dash-desde').value = monthStartStr();
