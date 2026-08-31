@@ -1013,13 +1013,30 @@
           <td>${(p.categorias || []).map(c => `<span class="badge-pill">${escHtml(c)}</span>`).join(' ')}</td>
           <td>${fmtMoney(p.precio)}</td>
           <td>${p.activo ? '<span class="stock-ok">Sí</span>' : '<span class="stock-bajo">No</span>'}</td>
-          <td><button type="button" class="btn-secondary btn-small editar-producto">Editar</button></td>
+          <td style="white-space:nowrap;">
+            <button type="button" class="btn-secondary btn-small editar-producto">Editar</button>
+            <button type="button" class="btn-secondary btn-small toggle-activo">${p.activo ? 'Desactivar' : 'Activar'}</button>
+          </td>
         </tr>`).join('');
       tbody.querySelectorAll('.editar-producto').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const tr = e.target.closest('tr');
           const p = productosCache.find(x => x.id === tr.dataset.id);
           if (p) loadProductIntoForm(p);
+        });
+      });
+      tbody.querySelectorAll('.toggle-activo').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const tr = e.target.closest('tr');
+          const p = productosCache.find(x => x.id === tr.dataset.id);
+          if (!p) return;
+          btn.disabled = true;
+          const { error } = await sb.from('productos').update({ activo: !p.activo }).eq('id', p.id);
+          btn.disabled = false;
+          if (error) { alert('Error: ' + error.message); return; }
+          await loadProductos();
+          fillProductoSelects();
+          renderProductosTable();
         });
       });
     };
