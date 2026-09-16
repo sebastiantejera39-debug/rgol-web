@@ -225,11 +225,22 @@
   }
 
   function injectUI() {
-    const wrap = document.createElement('div');
-    wrap.innerHTML = `
-      <button id="rgol-cart-fab" aria-label="Ver carrito">
+    const fabHolder = document.createElement('div');
+    fabHolder.innerHTML = `
+      <button id="rgol-cart-fab" class="btn-icon" aria-label="Ver carrito">
         🛒<span id="rgol-cart-badge">0</span>
       </button>
+    `;
+    const cartFab = fabHolder.firstElementChild;
+    const headerActions = document.querySelector('.header-actions');
+    if (headerActions) {
+      headerActions.appendChild(cartFab);
+    } else {
+      document.body.appendChild(cartFab);
+    }
+
+    const wrap = document.createElement('div');
+    wrap.innerHTML = `
       <div id="rgol-cart-overlay"></div>
       <div id="rgol-cart-drawer">
         <div class="rgol-cart-header">

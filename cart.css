@@ -1,21 +1,24 @@
 /* ===== RGOL.UY — Estilos del carrito ===== */
 #rgol-cart-fab {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
   background: var(--gold, #C9A24B);
   color: #0D0D0D;
-  border: none;
-  font-size: 24px;
+  border: 1px solid var(--gold, #C9A24B);
+  font-size: 17px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-  z-index: 999;
+  box-shadow: none;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+#rgol-cart-fab:hover {
+  background: var(--gold-light, #F0C96B);
+  transform: translateY(-1px);
 }
 
 #rgol-cart-badge {
