@@ -1,6 +1,6 @@
 /* ===== RGOL.UY — Carrito (paso previo a checkout real) ===== */
 (function () {
-  const WHATSAPP_NUMBER = '598098037399';
+  const WHATSAPP_NUMBER = '59892990732';
   const STORAGE_KEY = 'rgol_cart';
   const TRANSFER_DISCOUNT = 0.05; // -5% al pagar por transferencia
   let selectedMethod = 'mp';
