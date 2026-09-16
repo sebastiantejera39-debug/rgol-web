@@ -102,17 +102,16 @@
   .hero { background: #0D0D0D; border-bottom: 1px solid var(--border); padding: 120px 40px; display: block; position: relative; overflow: hidden; min-height: 520px; }
 
   .hero-photos { position: absolute; inset: 0; z-index: 0; }
-  .hero-photo { position: absolute; inset: 0; background-size: contain; background-repeat: no-repeat; opacity: 0; animation: hero-crossfade 12s infinite; }
-  .hero-photo-1 { background-image: url('hero-bg-1.jpg'); background-position: right center; animation-delay: 0s; }
-  .hero-photo-2 { background-image: url('hero-bg-2.jpg'); background-position: right center; animation-delay: 6s; }
-  @media (min-width: 769px) {
-    .hero-photo { background-size: cover; background-position: center 38%; }
-  }
+  .hero-photo { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; opacity: 0; animation: hero-crossfade 24s infinite; }
+  .hero-photo-1 { background-image: url('hero-bg-1.jpg'); background-position: center 35%; animation-delay: 0s; }
+  .hero-photo-2 { background-image: url('hero-bg-2.jpg'); background-position: center 30%; animation-delay: 6s; }
+  .hero-photo-3 { background-image: url('hero-bg-3.jpg'); background-position: center 25%; animation-delay: 12s; }
+  .hero-photo-4 { background-image: url('hero-bg-4.jpg'); background-position: center 30%; animation-delay: 18s; }
   @keyframes hero-crossfade {
     0% { opacity: 0; }
-    8% { opacity: 1; }
-    42% { opacity: 1; }
-    58% { opacity: 0; }
+    4% { opacity: 1; }
+    21% { opacity: 1; }
+    29% { opacity: 0; }
     100% { opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -290,6 +289,8 @@
   <div class="hero-photos">
     <div class="hero-photo hero-photo-1"></div>
     <div class="hero-photo hero-photo-2"></div>
+    <div class="hero-photo hero-photo-3"></div>
+    <div class="hero-photo hero-photo-4"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
